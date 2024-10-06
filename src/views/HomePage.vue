@@ -4,10 +4,10 @@
     <header class="header">
       <nav class="navbar">
         <ul>
-          <li><a href="#home">Inicio</a></li>
-          <li><a href="#recipes">Recetas</a></li>
-          <li><a href="#about">Acerca de</a></li>
-          <li><a href="#contact">Contacto</a></li>
+          <li><router-link to="/">Inicio</router-link></li>
+          <li><router-link to="#recipes">Recetas</router-link></li>
+          <li><router-link to="#about">Acerca de</router-link></li>
+          <li><router-link to="#contact">Contacto</router-link></li>
           <li class="search">
             <input type="text" placeholder="Buscar recetas..." />
             <button @click="searchRecipes"><i class="fas fa-search"></i></button>
@@ -19,7 +19,7 @@
     <!-- Mensaje CTA con imagen de fondo -->
     <section class="cta">
       <h2>¡Descubre las mejores recetas y cocina como un chef!</h2>
-      <button @click="registerUser">Regístrate Ahora</button>
+      <button @click="goToRegister">Regístrate Ahora</button>
     </section>
 
     <!-- Video -->
@@ -48,12 +48,10 @@
 <script>
 export default {
   methods: {
-    registerUser() {
-      console.log('Función de registro (sin formulario)');
-      // Lógica adicional para registrar al usuario si es necesario
+    goToRegister() {
+      this.$router.push('/register');
     },
     searchRecipes() {
-      // Lógica para buscar recetas
       console.log('Buscando recetas...');
     }
   }
@@ -69,29 +67,29 @@ html, body {
 }
 
 .home-container {
-  max-width: 100vw; /* Ocupará todo el ancho de la ventana */
-  min-height: 100vh; /* Mínimo el alto de la ventana */
-  background-color: #000; /* Fondo negro */
-  color: #ffffff; /* Texto blanco */
+  max-width: 100vw;
+  min-height: 100vh;
+  background-color: #000;
+  color: #ffffff;
   display: flex;
   flex-direction: column;
 }
 
 .header {
-  width: 100%; /* Hacer que el encabezado ocupe todo el ancho */
-  background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro para la barra de navegación */
-  color: #ffffff; /* Color del texto */
-  padding: 10px 20px; /* Espaciado */
-  position: fixed; /* Fijar en la parte superior */
-  top: 0; /* Top a 0 */
-  z-index: 1000; /* Para que se muestre sobre otros elementos */
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #ffffff;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
 }
 
 .navbar ul {
   list-style: none;
   padding: 0;
   display: flex;
-  justify-content: center; /* Centrar el contenido horizontalmente */
+  justify-content: center;
 }
 
 .navbar ul li {
@@ -100,12 +98,12 @@ html, body {
 
 .navbar a {
   text-decoration: none;
-  color: #ffffff; /* Color de texto del menú */
+  color: #ffffff;
 }
 
 .search {
   display: flex;
-  align-items: center; /* Alinear verticalmente */
+  align-items: center;
 }
 
 .search input {
@@ -116,7 +114,7 @@ html, body {
 }
 
 .search button {
-  background-color: #f5f5f5; /* Color del botón de búsqueda */
+  background-color: #f5f5f5;
   color: white;
   border: none;
   padding: 5px 10px;
@@ -125,54 +123,44 @@ html, body {
 
 .cta {
   position: relative;
-  min-height: 100vh; /* Altura mínima para la sección CTA */
-  margin-top: 70px; /* Para compensar la altura de la barra de navegación fija */
-  background-image: url('https://img.freepik.com/foto-gratis/fondo-abstracto-borroso-cocina-moderna-mesa-espacio-exhibir-sus-productos_91908-1263.jpg?size=626&ext=jpg'); /* Cambia la URL por la imagen de fondo deseada */
-  background-size: cover; /* Cubrir todo el área */
-  background-position: center; /* Centrar la imagen */
-  display: flex; /* Para centrar contenido */
-  flex-direction: column; /* Estructura vertical */
-  justify-content: center; /* Centrar verticalmente */
-  align-items: center; /* Centrar horizontalmente */
-  text-align: center; /* Centrar el texto */
+  min-height: 100vh;
+  margin-top: 70px;
+  background-image: url('https://img.freepik.com/foto-gratis/fondo-abstracto-borroso-cocina-moderna-mesa-espacio-exhibir-sus-productos_91908-1263.jpg?size=626&ext=jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .cta h2 {
-  color: #080808; /* Color de texto CTA que contrasta bien */
-  font-size: 48px; /* Tamaño de texto más grande */
-  margin-bottom: 20px; /* Espacio entre el título y el botón */
+  color: #080808;
+  font-size: 48px;
+  margin-bottom: 20px;
 }
 
 .cta button {
-  background-color: #0e0d0d; /* Color del botón */
+  background-color: #0e0d0d;
   color: #f1f1f1;
   padding: 10px 20px;
-  font-size: 20px; /* Aumentar el tamaño del texto del botón */
-}
-
-.featured-image {
-  margin: 50px 0; /* Espacio considerable entre la CTA y la imagen destacada */
-}
-
-.featured-image img {
-  width: 100%;
-  height: auto;
-  border-radius: 5px;
+  font-size: 20px;
 }
 
 .video-container {
-  margin: 50px 0; /* Espacio considerable antes de la sección de video */
+  margin: 50px 0;
 }
 
 .video-container h3 {
-  margin-bottom: 20px; /* Espacio entre el título y el video */
+  margin-bottom: 20px;
 }
 
 .footer {
-  margin-top: 50px; /* Espacio antes del pie de página */
+  margin-top: 50px;
   padding: 10px;
-  background-color: #333; /* Color de fondo del pie de página */
+  background-color: #333;
   color: white;
-  text-align: center; /* Centrar el texto del pie de página */
+  text-align: center;
 }
 </style>
