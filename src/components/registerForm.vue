@@ -39,27 +39,66 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router'; // Importa useRouter correctamente
 
+// Define las referencias necesarias
 const form = ref({
   username: '',
   email: '',
   password: '',
-  confirmPassword: '',
+  confirmPassword: ''
 });
-
 const error = ref('');
 const success = ref('');
 
-const handleSubmit = () => {
+const router = useRouter(); // Asegúrate de que esté definida
+
+// Función para manejar el envío del formulario
+const handleSubmit = async () => {
   if (form.value.password !== form.value.confirmPassword) {
     error.value = 'Las contraseñas no coinciden';
     success.value = '';
   } else {
     error.value = '';
-    success.value = 'Registro exitoso';
-    // Aquí iría la lógica para el registro de usuario
+    
+    // Crear el cuerpo de la solicitud
+    const usuarioData = {
+      username: form.value.username,
+      email: form.value.email,
+      password: form.value.password,
+    };
+
+    try {
+      // Realizar la solicitud POST al servidor
+      const response = await fetch('http://localhost:4000/register', { // Ajusta la URL según tu backend
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(usuarioData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        success.value = '¡Registro exitoso! Redirigiendo a la página de login...';
+        error.value = '';
+
+        // Redirige al usuario después de un registro exitoso
+        setTimeout(() => {
+          router.push('/login');
+        }, 1500);
+      } else {
+        error.value = data.message || 'Error al registrar el usuario';
+        success.value = '';
+      }
+    } catch (err) {
+      error.value = 'Error en el servidor: ' + err.message;
+      success.value = '';
+    }
   }
 };
+
 </script>
 
 <style scoped>
