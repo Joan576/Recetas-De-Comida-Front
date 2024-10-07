@@ -1,20 +1,19 @@
-// /router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from '../views/HomePage.vue';  // Asegúrate de que esta ruta sea correcta
-import RegisterForm from '../components/registerForm.vue'; // Ruta del formulario de registro
+import HomePage from '../components/HomePage.vue';
+import RegisterForm from '../components/registerForm.vue';
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: HomePage,  // Esta es la ruta principal que se mostrará primero
+    component: HomePage, // Componente que se mostrará en la raíz
   },
   {
     path: '/register',
     name: 'Register',
-    component: RegisterForm,  // Ruta para el formulario de registro
+    component: RegisterForm, // Componente de registro
   },
-  // Puedes agregar más rutas aquí según sea necesario
+  // Agrega más rutas aquí si es necesario
 ];
 
 const router = createRouter({
@@ -23,3 +22,4 @@ const router = createRouter({
 });
 
 export default router;
+

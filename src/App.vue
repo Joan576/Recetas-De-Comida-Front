@@ -12,5 +12,8 @@ export default {
 </script>
 
 <style>
-/* Estilos globales si son necesarios */
-</style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}</style>

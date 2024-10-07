@@ -59,11 +59,19 @@ export default {
 </script>
 
 <style scoped>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   font-family: Arial, sans-serif;
+  
 }
 
 .home-container {
@@ -73,6 +81,9 @@ html, body {
   color: #ffffff;
   display: flex;
   flex-direction: column;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .header {
@@ -83,6 +94,7 @@ html, body {
   position: fixed;
   top: 0;
   z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Sombra para la barra de navegación */
 }
 
 .navbar ul {
