@@ -3,17 +3,21 @@
     <!-- Encabezado con la barra de navegación -->
     <header class="header">
       <nav class="navbar">
-        <ul>
-          <li><router-link to="/">Inicio</router-link></li>
-          <li><router-link to="#recipes">Recetas</router-link></li>
-          <li><router-link to="#about">Acerca de</router-link></li>
-          <li><router-link to="#contact">Contacto</router-link></li>
-          <li class="search">
-            <input type="text" placeholder="Buscar recetas..." />
-            <button @click="searchRecipes"><i class="fas fa-search"></i></button>
-          </li>
-        </ul>
-      </nav>
+  <ul class="nav-left">
+    <li><router-link to="/">Inicio</router-link></li>
+    <li><router-link to="#recipes">Recetas</router-link></li>
+    <li><router-link to="#about">Acerca de</router-link></li>
+    <li><router-link to="#contact">Contacto</router-link></li>
+    <li class="search">
+      <input type="text" placeholder="Buscar recetas..." />
+    </li>
+  </ul>
+  <ul class="nav-right">
+    <li><router-link to="register">Registro</router-link></li>
+    <li><router-link to="#login">Login</router-link></li>
+  </ul>
+</nav>
+
     </header>
 
     <!-- Mensaje CTA con imagen de fondo -->
@@ -60,11 +64,6 @@ export default {
 
 <style scoped>
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
 html, body {
   margin: 0;
@@ -95,22 +94,49 @@ html, body {
   top: 0;
   z-index: 1000;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Sombra para la barra de navegación */
+  padding-top: 10px;
 }
 
 .navbar ul {
   list-style: none;
   padding: 0;
   display: flex;
-  justify-content: center;
+  align-items: center; /* Alinear verticalmente */
 }
 
+.nav-left {
+  justify-content: center; /* Centrar los elementos en la parte izquierda */
+}
+
+.nav-left li {
+  margin: 0 5px; /* Espaciado entre los elementos */
+}
+
+.nav-right {
+  margin-left: auto; /* Empujar la lista de la derecha hacia el final */
+}
+
+.navbar{
+  display: flex; /* Cambiar a flex para la barra de navegación */
+  justify-content: space-between; /* Distribuir espacio entre los elementos */
+  align-items: center;
+
+}
+  
 .navbar ul li {
   margin: 0 15px;
+  
 }
 
 .navbar a {
   text-decoration: none;
   color: #ffffff;
+}
+
+.navbar :hover{
+  text-decoration: none;
+  color: #a80000;
+
 }
 
 .search {
@@ -123,20 +149,15 @@ html, body {
   border: none;
   border-radius: 5px;
   margin-right: 5px;
+  width: 300px;
 }
 
-.search button {
-  background-color: #f5f5f5;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-}
+
 
 .cta {
   position: relative;
   min-height: 100vh;
-  margin-top: 70px;
+  margin-top: 45px;
   background-image: url('https://img.freepik.com/foto-gratis/fondo-abstracto-borroso-cocina-moderna-mesa-espacio-exhibir-sus-productos_91908-1263.jpg?size=626&ext=jpg');
   background-size: cover;
   background-position: center;
@@ -158,6 +179,16 @@ html, body {
   color: #f1f1f1;
   padding: 10px 20px;
   font-size: 20px;
+}
+
+.cta button:hover {
+  color: #f1f1f1;
+  padding: 10px 20px;
+  font-size: 20px;
+  background-color: #a80000;
+  transition: background-color 0.3s;
+  cursor: pointer;
+
 }
 
 .video-container {
