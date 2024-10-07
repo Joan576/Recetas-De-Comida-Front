@@ -8,12 +8,12 @@
 
     <!-- Video -->
     <div class="video-container">
-      <h3>Aprende a cocinar</h3>
-      <video width="100%" height="auto" muted controls>
-        <source src="videos/Recetas_faciles.mp4" type="video/mp4">
-        Tu navegador no soporta la etiqueta de video.
-      </video>
-    </div>
+  <h3 style="text-align: center;">Aprende a cocinar lo mejor, con los mejores c:</h3>
+  <video width="100%" height="auto" muted autoplay loop>
+    <source src="../../videos/videoplayback.mp4" type="video/mp4">
+    Tu navegador no soporta la etiqueta de video.
+  </video>
+</div>
 
   </div>
 </template>
@@ -86,7 +86,7 @@ html, body {
 }
 
 .video-container {
-  margin: 50px 0;
+  margin: 20px;
 }
 
 .video-container h3 {

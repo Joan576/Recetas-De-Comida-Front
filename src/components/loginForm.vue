@@ -68,14 +68,40 @@
 
 
 <style scoped>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0; /* Asegúrate de que no haya márgenes */
+}
+
+.login-page {
+  margin: 0;
+  padding: 0;
+  background-image: url('https://imagenes.20minutos.es/files/image_1920_1080/uploads/imagenes/2023/01/02/surtido-de-tapas-espanolas.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  
+}
+
 .login-container {
   max-width: 400px;
-  margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #000;
   border-radius: 10px;
-  background-color: #f9f9f9;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  background-color: #dedede;
 }
 
 h2 {
@@ -84,12 +110,14 @@ h2 {
 }
 
 .input-group {
-  margin-bottom: 15px;
+  margin: 15px;
 }
 
 label {
   display: block;
   margin-bottom: 5px;
+  font-weight: bold;
+  text-align: left;
 }
 
 input {
@@ -97,9 +125,12 @@ input {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  display: block;
+  margin: 0 auto;
 }
 
 button {
+  margin-top: 15px;
   width: 100%;
   padding: 10px;
   background-color: #007BFF;
@@ -118,5 +149,12 @@ button:hover {
 .error {
   color: red;
   margin-top: 10px;
+  font-size: 14px;
+}
+
+.success {
+  color: green;
+  margin-top: 10px;
+  font-size: 14px;
 }
 </style>
