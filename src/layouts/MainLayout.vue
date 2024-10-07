@@ -13,7 +13,7 @@
           <li v-if="!isLoggedIn"><router-link to="/login">Login</router-link></li>
           <li v-if="!isLoggedIn"><router-link to="/register">Register</router-link></li>
           <li v-if="isLoggedIn">Bienvenido, {{ username }}</li>
-          <li v-if="isLoggedIn"><button @click="handleLogout">Logout</button></li>
+          <li v-if="isLoggedIn"><button @click="handleLogout" class="logout-button">Logout</button></li>
         </ul>
       </nav>
     </header>
@@ -87,6 +87,27 @@ const handleLogout = () => {
 .navbar a:hover {
   text-decoration: none;
   color: #a80000;
+}
+
+
+.logout-button {
+  padding: 3px 5px;
+  background-color: #e63946; /* Color de fondo */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambiar el cursor al pasar el mouse */
+  font-size: 16px; /* Tamaño de fuente */
+  transition: background-color 0.3s, transform 0.2s; /* Transiciones suaves */
+}
+
+.logout-button:hover {
+  background-color: #d62839; /* Color al pasar el mouse */
+  transform: scale(1.05); /* Aumentar ligeramente el tamaño */
+}
+
+.logout-button:focus {
+  outline: none; /* Sin borde al enfocar */
 }
 
 .footer {
