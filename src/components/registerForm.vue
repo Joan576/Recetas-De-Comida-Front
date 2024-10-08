@@ -1,76 +1,89 @@
-<template> <!-- Utiliza un slot, si tu MainLayout tiene uno -->
-    <div class="register-page">
-      <div class="register-container">
-        <h2>Registro</h2>
-        <form @submit.prevent="handleSubmit">
-          <div>
-            <label for="username">Nombre de Usuario:</label>
-            <div style="text-align: center;">
-              <input v-model="form.username" type="text" id="username" required />
-            </div>
+<template>
+  <div class="register-page">
+    <div class="register-container">
+      <h2>Registro</h2>
+      <form @submit.prevent="handleSubmit">
+        <div>
+          <label for="username">Nombre de Usuario:</label>
+          <div style="text-align: center;">
+            <input v-model="form.username" type="text" id="username" required />
           </div>
-          <div>
-            <label for="email">Correo Electrónico:</label>
-            <div style="text-align: center;">
-              <input v-model="form.email" type="email" id="email" required />
-            </div>
+        </div>
+        <div>
+          <label for="email">Correo Electrónico:</label>
+          <div style="text-align: center;">
+            <input v-model="form.email" type="email" id="email" required />
           </div>
-          <div>
-            <label for="password">Contraseña:</label>
-            <div style="text-align: center;">
-              <input v-model="form.password" type="password" id="password" required />
-            </div>
+        </div>
+        <div>
+          <label for="password">Contraseña:</label>
+          <div style="text-align: center;">
+            <input v-model="form.password" type="password" id="password" required />
           </div>
-          <div>
-            <label for="confirmPassword">Confirmar Contraseña:</label>
-            <div style="text-align: center;">
-              <input v-model="form.confirmPassword" type="password" id="confirmPassword" required />
-            </div>
+        </div>
+        <div>
+          <label for="confirmPassword">Confirmar Contraseña:</label>
+          <div style="text-align: center;">
+            <input v-model="form.confirmPassword" type="password" id="confirmPassword" required />
           </div>
-          <div v-if="error" class="error">{{ error }}</div>
-          <div v-if="success" class="success">{{ success }}</div>
-          <button type="submit">Registrar</button>
-        </form>
-      </div>
+        </div>
+
+        <!-- Checkbox para aceptar los términos y condiciones -->
+        <div class="terms">
+          <input type="checkbox" id="terms" v-model="form.acceptTerms" />
+          <label for="terms">
+            Acepto los <a href="#">términos y condiciones</a>
+          </label>
+        </div>
+
+        <div v-if="error" class="error">{{ error }}</div>
+        <div v-if="success" class="success">{{ success }}</div>
+
+        <!-- Botón de registrar que se deshabilita si no se aceptan los términos -->
+        <button type="submit" :disabled="!form.acceptTerms">Registrar</button>
+      </form>
     </div>
+  </div>
 </template>
-
-
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router'; // Importa useRouter correctamente
+import { useRouter } from 'vue-router'; 
+import CryptoJS from 'crypto-js'; // Importa CryptoJS
 
-// Define las referencias necesarias
 const form = ref({
   username: '',
   email: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
+  acceptTerms: false, 
 });
 const error = ref('');
 const success = ref('');
 
-const router = useRouter(); // Asegúrate de que esté definida
+const router = useRouter(); 
 
-// Función para manejar el envío del formulario
 const handleSubmit = async () => {
   if (form.value.password !== form.value.confirmPassword) {
     error.value = 'Las contraseñas no coinciden';
     success.value = '';
+  } else if (!form.value.acceptTerms) {
+    error.value = 'Debes aceptar los términos y condiciones';
+    success.value = '';
   } else {
     error.value = '';
     
-    // Crear el cuerpo de la solicitud
+    // Encriptar la contraseña antes de enviarla
+    const encryptedPassword = CryptoJS.AES.encrypt(form.value.password, 'clave_secreta').toString();
+
     const usuarioData = {
       username: form.value.username,
       email: form.value.email,
-      password: form.value.password,
+      password: encryptedPassword, // Usa la contraseña encriptada
     };
 
     try {
-      // Realizar la solicitud POST al servidor
-      const response = await fetch('http://localhost:4000/register', { // Ajusta la URL según tu backend
+      const response = await fetch('http://localhost:4000/register', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +97,6 @@ const handleSubmit = async () => {
         success.value = '¡Registro exitoso! Redirigiendo a la página de login...';
         error.value = '';
 
-        // Redirige al usuario después de un registro exitoso
         setTimeout(() => {
           router.push('/login');
         }, 1500);
@@ -98,8 +110,8 @@ const handleSubmit = async () => {
     }
   }
 };
-
 </script>
+
 
 <style scoped>
 * {
@@ -110,7 +122,7 @@ const handleSubmit = async () => {
 
 html, body {
   height: 100%;
-  margin: 0; /* Asegúrate de que no haya márgenes */
+  margin: 0;
 }
 
 .register-page {
@@ -125,7 +137,6 @@ html, body {
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  
 }
 
 .register-container {
@@ -163,6 +174,24 @@ input {
   margin: 0 auto;
 }
 
+.terms {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.terms input[type="checkbox"] {
+  margin-right: 5px; /* Reduce la distancia entre el checkbox y el texto */
+  margin-left: 0; /* Asegura que el checkbox esté alineado a la izquierda */
+  padding: 0; /* Elimina cualquier padding en el checkbox */
+}
+
+.terms label {
+  margin: 0; /* Elimina cualquier margen en el texto */
+  white-space: nowrap; /* Evita que el texto salte a otra línea */
+}
+ 
+
 button {
   margin-top: 15px;
   width: 100%;
@@ -176,7 +205,12 @@ button {
   transition: background-color 0.3s;
 }
 
-button:hover {
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
   background-color: #0056b3;
 }
 
