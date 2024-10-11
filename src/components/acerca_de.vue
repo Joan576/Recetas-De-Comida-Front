@@ -4,9 +4,9 @@
     <section class="cta">
       <!-- Contenedor del contenido -->
       <div class="cta-content">
-        <h1>COCPROG</h1>
+        <h1 class="glow">Recetas Digitales</h1> <!-- Agregamos la clase 'glow' aquí -->
         <!-- Botón que al hacer clic desplaza la vista a la segunda imagen -->
-        <button @click="scrollToSecondSection">Ver más</button>
+        <button class="glow-button" @click="scrollToSecondSection">Ver más</button>
       </div>
     </section>
 
@@ -23,7 +23,6 @@
           nuevas recetas, técnicas y sabores que puedas recrear
           fácilmente en casa.
         </p>
-        <!-- Botón eliminado en la segunda sección -->
       </div>
     </section>
   </div>
@@ -90,10 +89,20 @@ html, body {
   margin: 0; /* Eliminamos el margen para ajustar a la izquierda */
 }
 
+/* Clase para el resplandor alrededor del título */
+.glow {
+  font-size: 45px;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(181, 5, 5, 0.8), /* Resplandor blanco */
+               0 0 20px rgba(231, 247, 3, 0.712), /* Resplandor más amplio */
+               0 0 30px rgba(0, 0, 0, 0.4); /* Resplandor más tenue */
+}
+
 /* Alineación específica para el contenido de la segunda sección */
 .left-align {
   text-align: left; /* Alineación a la izquierda */
-  width: 100%; /* Aseguramos que el ancho ocupe todo el contenedor */
+  width: 90%; /* Aseguramos que el ancho ocupe todo el contenedor */
   padding: 0; /* Eliminamos el padding */
   position: absolute; /* Posicionamos absolutamente */
   bottom: 20%; /* Ajusta la distancia desde la parte inferior */
@@ -102,8 +111,6 @@ html, body {
 
 /* Títulos y texto */
 .cta-content h1 {
-  font-size: 45px;
-  font-weight: bold;
   margin-bottom: 20px;
 }
 
@@ -113,19 +120,41 @@ html, body {
   margin-bottom: 30px;
 }
 
-.cta-content button {
-  background-color: #555353;
+/* Estilos del botón */
+.glow-button {
+  background-color: rgba(85, 83, 83, 0.256); /* Fondo poco visible */
   color: #fff;
   padding: 15px 30px;
-  border: none;
+  border: 2px solid rgba(255, 255, 255, 0.8); /* Borde que brilla */
+  border-radius: 5px;
   font-size: 18px;
   cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+  position: relative; /* Posicionamiento para el efecto de brillo */
+  overflow: hidden; /* Para evitar que el brillo se salga del botón */
 }
 
-.cta-content button:hover {
-  background-color: #cc3232;
+/* Efecto de brillo para el botón */
+.glow-button:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.2); /* Color del brillo */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glow-button:hover {
+  background-color: rgba(255, 0, 0, 0.759); /* Cambio de color en hover */
+  border-color: #d62839; /* Cambio de color del borde en hover */
+}
+
+.glow-button:hover:before {
+  opacity: 1; /* Muestra el brillo en hover */
 }
 
 /* Ajustes para pantallas pequeñas */
