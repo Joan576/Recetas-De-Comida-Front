@@ -1,25 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../components/HomePage.vue';
+import LoginForm from '../components/loginForm.vue';
 import RegisterForm from '../components/registerForm.vue';
-import LoginForm from '../components/loginForm.vue'; // Importa el componente de Login
+import AcercaDe from '../components/acerca_de.vue'; // Importa el componente
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: HomePage, // Componente que se mostrará en la raíz
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: RegisterForm, // Componente de registro
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: LoginForm, // Componente de Login
-  },
-  // Agrega más rutas aquí si es necesario
+  { path: '/', component: HomePage },
+  { path: '/login', component: LoginForm },
+  { path: '/register', component: RegisterForm },
+  { path: '/acerca-de', component: AcercaDe }, // Agrega la ruta para Acerca de
 ];
 
 const router = createRouter({
