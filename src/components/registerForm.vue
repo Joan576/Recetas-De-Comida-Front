@@ -146,8 +146,9 @@ html, body {
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
-  background-color: #dedede;
+  background-color: rgba(222, 222, 222, 0.8); /* Ajuste de transparencia */
 }
+
 
 h2 {
   text-align: center;
