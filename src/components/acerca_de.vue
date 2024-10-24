@@ -172,4 +172,8 @@ html, body {
     font-size: 16px;
   }
 }
+
+h2, p {
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Sombra negra suave */
+}
 </style>

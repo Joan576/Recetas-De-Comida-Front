@@ -4,10 +4,10 @@
     <header class="header">
       <nav class="navbar">
         <ul class="nav-left">
+          <p style="padding-right: 10px; padding-left: 10px;">ProCocina</p>
           <li><router-link to="/">Inicio</router-link></li>
           <li><router-link to="/recetas">Recetas</router-link></li>
           <li><router-link to="/acerca-de">Acerca de</router-link></li>
-          <li><router-link to="/contacto">Contacto</router-link></li>
         </ul>
         <ul class="nav-right">
           <li v-if="!isLoggedIn"><router-link to="/login">Login</router-link></li>
@@ -26,9 +26,8 @@
     <h3>Información de Contacto</h3>
     <p>
       Si tienes alguna pregunta o comentario, no dudes en contactarnos a través del
-      correo electrónico: <strong>progcoc@gmail.com</strong> o llámanos al
-      <strong>+57 3212184888</strong>. Estamos aquí para ayudarte a descubrir las
-      mejores recetas.
+      correo electrónico: <strong>prococina@gmail.com</strong> o llámanos al
+      <strong>+57 321 2184888</strong>.
     </p>
     <p>&copy; 2024 Cocina Recetas. Todos los derechos reservados.</p>
   </footer>
@@ -110,12 +109,16 @@ const handleLogout = () => {
   outline: none; /* Sin borde al enfocar */
 }
 
+li {
+  list-style:none
+}
 .footer {
-  margin-top: 0;
+  margin-top: 0px;
   padding: 10px;
-  background-color: #333;
+  background-color: #000000;
   color: white;
   text-align: center;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
 }
 
 </style>
