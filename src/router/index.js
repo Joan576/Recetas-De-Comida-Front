@@ -4,6 +4,7 @@ import LoginForm from '../components/loginForm.vue';
 import RegisterForm from '../components/registerForm.vue';
 import AcercaDe from '../components/acerca_de.vue'; // Importa el componente
 import RecipePage from '@/components/RecipePage.vue';
+import EntradasPage from '@/components/EntradasPage.vue';
 
 const routes = [
   { path: '/', component: HomePage },
@@ -11,6 +12,7 @@ const routes = [
   { path: '/register', component: RegisterForm },
   { path: '/acerca-de', component: AcercaDe }, // Agrega la ruta para Acerca de
   { path: '/recetas', component: RecipePage },
+  { path: '/recipes/entradas', component: EntradasPage },  // Ruta para Entradas
 ];
 
 const router = createRouter({
