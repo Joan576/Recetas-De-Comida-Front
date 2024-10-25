@@ -255,3 +255,11 @@ h2, p {
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Sombra negra suave */
 }
 </style>
+
+
+<div class="background-video" > 
+  <video width="100%" height="auto" muted autoplay loop>
+    <source src="../../videos/fondo_tabla.mp4" type="video/mp4" />
+    Tu navegador no soporta la etiqueta de video.
+  </video>
+  </div>

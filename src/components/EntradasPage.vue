@@ -1,10 +1,12 @@
 <template>
-  <div class="entradas-page">
+  <div class="entradas-page" style="margin-bottom: 21px;">
     <!-- Video de fondo -->
-    <video class="background-video" autoplay muted loop playsinline>
-      <source src="../../videos/fondo_tabla.mp4" type="video/mp4" />
-      Tu navegador no soporta la etiqueta de video.
-    </video>
+    <div class="background-video">
+      <video autoplay loop muted>
+        <source src="../../videos/fondo_tabla.mp4" type="video/mp4" />
+        Tu navegador no soporta el video.
+      </video>
+    </div>
 
     <!-- Título de la sección -->
     <h1 class="title">Entradas y Acompañantes</h1>
@@ -53,8 +55,10 @@
       ></iframe>
       <button @click="closeRecipeDetails">Cerrar</button>
     </div>
+
   </div>
 </template>
+
 
 <script>
 export default {
@@ -137,23 +141,23 @@ export default {
 </script>
 
 <style scoped>
+
 /* Video de fondo */
 .background-video {
-  position: fixed;
+  position: fixed; /* Hace que el video esté fijado en el fondo */
   top: 0;
   left: 0;
+  width: 100%; /* Ocupa el ancho completo */
+  height: 100%; /* Ocupa la altura completa */
+  z-index: -1; /* Coloca el video detrás del contenido */
+  overflow: hidden;
+}
+
+video {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  z-index: -10; /* Video está muy por debajo del contenido */
-  opacity: 1;
+  object-fit: cover; /* Asegura que el video cubra el área */
 }
-
-footer, .entradas-page {
-  position: relative;
-  z-index: 1.2; /* Asegura que el contenido esté sobre el video */
-}
-
 
 /* Fondo de la página */
 .entradas-page {

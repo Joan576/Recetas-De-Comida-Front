@@ -4,7 +4,7 @@
         <h2>Iniciar Sesión</h2>
         <form @submit.prevent="handleSubmit">
           <div class="input-group">
-            <label for="email">Correo Electronico</label>
+            <label for="email" >Correo Electronico</label>
             <input type="email" v-model="email" required placeholder="Ingresa tu correo"> 
           </div>
   
@@ -12,8 +12,9 @@
             <label for="password">Contraseña</label>
             <input type="password" v-model="password" required placeholder="Ingresa tu contraseña" />
           </div>
+          <a href="/register" style="margin-left: 9px;">¿No tienes cuenta? ¡Registrate!</a>
   
-          <button type="submit">Iniciar Sesión</button>
+          <button type="submit" style="margin-left: 6px;">Iniciar Sesión</button>
   
           <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
           <p v-if="successMessage" class="success">{{ successMessage }}</p>
@@ -102,6 +103,7 @@ html, body {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
   background-color: #dedede;
+  padding-left: 5px;
 }
 
 h2 {
@@ -110,7 +112,7 @@ h2 {
 }
 
 .input-group {
-  margin: 15px;
+  margin: 10px;
 }
 
 label {
@@ -127,6 +129,7 @@ input {
   border-radius: 5px;
   display: block;
   margin: 0 auto;
+
 }
 
 button {

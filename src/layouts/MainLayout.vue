@@ -21,7 +21,6 @@
       <router-view></router-view>
     </main>
   </div>
-  <!-- Información de contacto -->
   <footer class="footer">
     <h3>Información de Contacto</h3>
     <p>
@@ -119,6 +118,8 @@ li {
   color: white;
   text-align: center;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+  position: relative; /* O fixed si quieres que esté siempre visible */
+  z-index: 1; /* Asegúrate de que sea mayor que el z-index del video */
 }
 
 </style>
