@@ -49,7 +49,9 @@
           <p>
             ¡Endulza tu vida con los postres más ricos y fáciles de preparar! Desde tartas hasta helados, tenemos todo lo que necesitas para sorprender.
           </p>
+          <!-- Este botón redirige a la sección de postres -->
           <button @click="goToRecipes('postres')">Ver ahora</button>
+
         </div>
       </div>
     </section>
