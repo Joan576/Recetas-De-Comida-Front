@@ -93,7 +93,7 @@ export default {
           id: 4,
           name: "Fresas con crema",
           description: "Deliciosas fresas con crema, para chuparse los dedos.",
-          image: "https://th.bing.com/th/id/R.e9a7296c9580d4ab345fdd16d66d5e1d?rik=mZm1373W8c7hcQ&riu=http%3a%2f%2fcolorantablog.com%2fwp-content%2fuploads%2f2017%2f02%2fFresas-Crema-Copas-6.jpg&ehk=UlDUgeGVxmcI4WV9WOYYGOmUNniv2TZuWJfR9CxOheE%3d&risl=1&pid=ImgRaw&r=0",
+          image: "https://th.bing.com/th/id/OIP.LJ4NBnu8WpHQIml360bGQQHaEo?rs=1&pid=ImgDetMain",
           videoUrl: "https://www.youtube.com/embed/fvQQfWbTvy8",
           ingredients: ["Crema de leche", "Leche en polvo", "Azúcar", "Fresas"]
         }

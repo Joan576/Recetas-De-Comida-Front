@@ -5,8 +5,9 @@ import RegisterForm from '../components/registerForm.vue';
 import AcercaDe from '../components/acerca_de.vue';
 import RecipePage from '@/components/RecipePage.vue';
 import EntradasPage from '@/components/EntradasPage.vue';
-import PostresPage from '@/components/PostresPage.vue'; // Importa el componente de Postres
-import BebidasPage from '@/components/BebidasPage.vue'; // Importa el nuevo componente
+import PostresPage from '@/components/PostresPage.vue';
+import BebidasPage from '@/components/BebidasPage.vue';
+import PlatosFuertesPage from '@/components/PlatosFuertesPage.vue'; // Importa el componente de Platos Fuertes
 
 const routes = [
   { path: '/', component: HomePage },
@@ -16,9 +17,9 @@ const routes = [
   { path: '/recetas', component: RecipePage },
   { path: '/recipes/entradas', component: EntradasPage },
   { path: '/recipes/postres', component: PostresPage },
-  { path: '/recipes/bebidas', component: BebidasPage }, // Ruta para Bebidas
+  { path: '/recipes/bebidas', component: BebidasPage },
+  { path: '/recipes/platos-fuertes', component: PlatosFuertesPage }, // Nueva ruta para Platos Fuertes
 ];
-
 
 const router = createRouter({
   history: createWebHistory(),
@@ -29,4 +30,3 @@ const router = createRouter({
 });
 
 export default router;
-
