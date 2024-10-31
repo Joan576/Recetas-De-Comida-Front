@@ -12,8 +12,18 @@
         <ul class="nav-right">
           <li v-if="!isLoggedIn"><router-link to="/login">Login</router-link></li>
           <li v-if="!isLoggedIn"><router-link to="/register">Register</router-link></li>
-          <li v-if="isLoggedIn">Bienvenido, {{ username }}</li>
-          <li v-if="isLoggedIn"><button @click="handleLogout" class="logout-button">Logout</button></li>
+          
+          <!-- Nombre de usuario con icono de perfil -->
+          <li v-if="isLoggedIn">
+            ¡Bienvenido, {{ username }}!
+            <router-link to="/perfil" class="profile-icon">
+              <i class="fas fa-user-circle"></i> <!-- Ícono de perfil -->
+            </router-link>
+          </li>
+          
+          <li v-if="isLoggedIn">
+            <button @click="handleLogout" class="logout-button">Logout</button>
+          </li>
         </ul>
       </nav>
     </header>
@@ -80,6 +90,7 @@ const handleLogout = () => {
   top: 0;
   z-index: 1000;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1000px;
 }
 
 .navbar {
@@ -131,6 +142,17 @@ const handleLogout = () => {
 
 li {
   list-style: none;
+}
+
+/* Estilo para el ícono de perfil */
+.profile-icon {
+  margin-left: 15px;
+  color: #ffffff;
+  font-size: 1.5em;
+}
+
+.profile-icon:hover {
+  color: #a80000;
 }
 
 .footer {

@@ -49,7 +49,6 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router'; 
-import CryptoJS from 'crypto-js'; // Importa CryptoJS
 
 const form = ref({
   username: '',
@@ -73,13 +72,10 @@ const handleSubmit = async () => {
   } else {
     error.value = '';
     
-    // Encriptar la contraseña antes de enviarla
-    const encryptedPassword = CryptoJS.AES.encrypt(form.value.password, 'clave_secreta').toString();
-
     const usuarioData = {
       username: form.value.username,
       email: form.value.email,
-      password: encryptedPassword, // Usa la contraseña encriptada
+      password: form.value.password, // Envía la contraseña en texto plano
     };
 
     try {

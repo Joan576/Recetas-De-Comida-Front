@@ -11,7 +11,8 @@ const routes = [
     { path: 'recipes/entradas', component: () => import('../components/EntradasPage.vue') },
     { path: 'recipes/postres', component: () => import('../components/PostresPage.vue') },
     { path: 'recipes/bebidas', component: () => import('../components/BebidasPage.vue') },
-    { path: 'recipes/platos-fuertes', component: () => import('../components/PlatosFuertesPage.vue') }
+    { path: 'recipes/platos-fuertes', component: () => import('../components/PlatosFuertesPage.vue') },
+    { path: 'perfil', component: () => import('../components/UserProfile.vue') }
   ]}
 ];
 

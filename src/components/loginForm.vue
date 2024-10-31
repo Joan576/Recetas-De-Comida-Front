@@ -36,25 +36,25 @@
   const handleSubmit = async () => {
     try {
       // Enviar la solicitud de inicio de sesión al backend
-      const response = await fetch('http://localhost:4000/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email.value,
-          password: password.value,
-        }),
-      });
-  
+      const response = await fetch('http://localhost:4000/api/usuarios/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: email.value,
+    password: password.value,
+  }),
+});
       const data = await response.json();
   
       if (response.ok) {
         // Guarda el nombre de usuario en localStorage
+        localStorage.setItem('userId', data.user.id); // Guarda el ID del usuario
         localStorage.setItem('user', JSON.stringify({ username: data.user.username }));
   
         // Llamar a la función login para actualizar el estado de inicio de sesión
-        login({ username: data.user.username }); // Actualiza el estado de inicio de sesión
+        login({ userId: data.user.id, username: data.user.username }); // Actualiza el estado de inicio de sesión
   
         // Redirigir al usuario a la página de inicio si el login fue exitoso
         router.push('/'); // Asegúrate de que esta ruta esté definida en tu enrutador
