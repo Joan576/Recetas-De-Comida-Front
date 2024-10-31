@@ -1,9 +1,7 @@
 <template>
   <div class="home-container">
-    <!-- Título fuera del div del video -->
     <h1 class="cta-title" style="margin-top: 90px;">Bienvenido a ProCocina</h1>
 
-    <!-- Contenedor para el video con tarjeta informativa -->
     <div class="video-container">
       <div class="video-overlay">
         <h2>¡Descubre las mejores recetas y cocina como un chef!</h2>
@@ -16,7 +14,6 @@
       </video>
     </div>
 
-    <!-- Sección CTA (Call to Action) con tarjeta informativa e imágenes -->
     <section class="cta">
       <div class="cta-content">
         <div class="cta-card">
@@ -24,27 +21,23 @@
           <p>Accede a nuestra galería de recetas y sorprende a todos con tus habilidades culinarias.</p>
           <button @click="goToRecipes">Explorar Recetas</button>
         </div>
-        <!-- Contenedor para las imágenes de recetas -->
         <div class="recipe-images">
-          <img src="https://images.pexels.com/photos/4057736/pexels-photo-4057736.jpeg" alt="Receta 1">
-          <img src="https://images.pexels.com/photos/19503814/pexels-photo-19503814/free-photo-of-plato-almuerzo-comida-frito.jpeg" alt="Receta 2">
-          <img src="https://images.pexels.com/photos/2373520/pexels-photo-2373520.jpeg" alt="Receta 2">
-          <img src="https://images.pexels.com/photos/1459338/pexels-photo-1459338.jpeg" alt="Receta 2">
+          <img loading="lazy" width="300" height="200" src="https://images.pexels.com/photos/4057736/pexels-photo-4057736.jpeg" alt="Receta 1">
+          <img loading="lazy" width="300" height="200" src="https://images.pexels.com/photos/19503814/pexels-photo-19503814/free-photo-of-plato-almuerzo-comida-frito.jpeg" alt="Receta 2">
+          <img loading="lazy" width="300" height="200" src="https://images.pexels.com/photos/2373520/pexels-photo-2373520.jpeg" alt="Receta 3">
+          <img loading="lazy" width="300" height="200" src="https://images.pexels.com/photos/1459338/pexels-photo-1459338.jpeg" alt="Receta 4">
         </div>
       </div>
     </section>
   </div>
 </template>
 
-
 <script>
 export default {
   methods: {
-    // Método que redirige a la página de registro
     goToRegister() {
-      this.$router.push('/register'); // Cambia la ruta a '/register'
+      this.$router.push('/register');
     },
-    // Método que se puede usar para buscar recetas
     goToRecipes() {
       this.$router.push('/recetas');
     }
@@ -255,11 +248,3 @@ h2, p {
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Sombra negra suave */
 }
 </style>
-
-
-<div class="background-video" > 
-  <video width="100%" height="auto" muted autoplay loop>
-    <source src="../../videos/fondo_tabla.mp4" type="video/mp4" />
-    Tu navegador no soporta la etiqueta de video.
-  </video>
-  </div>

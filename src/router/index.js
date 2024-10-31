@@ -1,24 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from '../components/HomePage.vue';
-import LoginForm from '../components/loginForm.vue';
-import RegisterForm from '../components/registerForm.vue';
-import AcercaDe from '../components/acerca_de.vue';
-import RecipePage from '@/components/RecipePage.vue';
-import EntradasPage from '@/components/EntradasPage.vue';
-import PostresPage from '@/components/PostresPage.vue';
-import BebidasPage from '@/components/BebidasPage.vue';
-import PlatosFuertesPage from '@/components/PlatosFuertesPage.vue'; // Importa el componente de Platos Fuertes
+import MainView from '../views/MainView.vue';
 
 const routes = [
-  { path: '/', component: HomePage },
-  { path: '/login', component: LoginForm },
-  { path: '/register', component: RegisterForm },
-  { path: '/acerca-de', component: AcercaDe },
-  { path: '/recetas', component: RecipePage },
-  { path: '/recipes/entradas', component: EntradasPage },
-  { path: '/recipes/postres', component: PostresPage },
-  { path: '/recipes/bebidas', component: BebidasPage },
-  { path: '/recipes/platos-fuertes', component: PlatosFuertesPage }, // Nueva ruta para Platos Fuertes
+  { path: '/', component: MainView, children: [
+    { path: '', component: () => import('../components/HomePage.vue') },
+    { path: 'login', component: () => import('../components/loginForm.vue') },
+    { path: 'register', component: () => import('../components/registerForm.vue') },
+    { path: 'acerca-de', component: () => import('../components/acerca_de.vue') },
+    { path: 'recetas', component: () => import('../components/RecipePage.vue') },
+    { path: 'recipes/entradas', component: () => import('../components/EntradasPage.vue') },
+    { path: 'recipes/postres', component: () => import('../components/PostresPage.vue') },
+    { path: 'recipes/bebidas', component: () => import('../components/BebidasPage.vue') },
+    { path: 'recipes/platos-fuertes', component: () => import('../components/PlatosFuertesPage.vue') }
+  ]}
 ];
 
 const router = createRouter({

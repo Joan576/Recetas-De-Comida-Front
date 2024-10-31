@@ -1,4 +1,5 @@
 <template>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <div class="layout-container">
     <header class="header">
       <nav class="navbar">
@@ -29,6 +30,22 @@
         <strong>+57 321 2184888</strong>.
       </p>
       <p>&copy; 2024 Cocina Recetas. Todos los derechos reservados.</p>
+      
+      <!-- Redes Sociales -->
+      <div class="social-icons">
+        <a href="https://www.facebook.com" target="_blank" aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://www.instagram.com" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.twitter.com" target="_blank" aria-label="Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="https://www.youtube.com" target="_blank" aria-label="YouTube">
+          <i class="fab fa-youtube"></i>
+        </a>
+      </div>
     </footer>
   </div>
 </template>
@@ -125,5 +142,20 @@ li {
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
   position: relative;
   z-index: 1;
+}
+
+.social-icons {
+  margin-top: 10px;
+}
+
+.social-icons a {
+  color: #ffffff;
+  margin: 0 10px;
+  font-size: 24px;
+  transition: color 0.3s;
+}
+
+.social-icons a:hover {
+  color: #ff6347; /* Cambia el color al pasar el mouse */
 }
 </style>
