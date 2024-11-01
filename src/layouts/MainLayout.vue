@@ -5,9 +5,11 @@
       <nav class="navbar">
         <ul class="nav-left">
           <p style="padding-right: 10px; padding-left: 10px;">ProCocina</p>
-          <li><router-link to="/">Inicio</router-link></li>
+          <li v-if="!isLoggedIn"><router-link to="/">Inicio</router-link></li>
+          <li v-if="isLoggedIn"><router-link to="/feed">Inicio</router-link></li>
           <li><router-link to="/recetas">Recetas</router-link></li>
-          <li><router-link to="/acerca-de">Acerca de</router-link></li>
+          <li v-if="!isLoggedIn"><router-link to="/acerca-de">Acerca de</router-link></li>
+          <li v-if="isLoggedIn"><router-link to="/guardado">Tus Recetas</router-link></li>
         </ul>
         <ul class="nav-right">
           <li v-if="!isLoggedIn"><router-link to="/login">Login</router-link></li>
@@ -63,7 +65,9 @@
 <script setup>
 import { onMounted } from 'vue';
 import { isLoggedIn, username, checkLoginStatus, logout as logoutUser } from '../AuthStore';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 // Verificar el estado de inicio de sesión al cargar el componente
 onMounted(() => {
   checkLoginStatus();
@@ -71,6 +75,7 @@ onMounted(() => {
 
 const handleLogout = () => {
   logoutUser(); // Llamar a la función de logout
+  router.push('/');
 };
 </script>
 

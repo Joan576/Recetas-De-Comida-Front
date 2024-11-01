@@ -57,7 +57,7 @@
         login({ userId: data.user.id, username: data.user.username }); // Actualiza el estado de inicio de sesión
   
         // Redirigir al usuario a la página de inicio si el login fue exitoso
-        router.push('/'); // Asegúrate de que esta ruta esté definida en tu enrutador
+        router.push('/feed'); // Asegúrate de que esta ruta esté definida en tu enrutador
       } else {
         errorMessage.value = data.message || 'Correo o contraseña incorrectos';
       }

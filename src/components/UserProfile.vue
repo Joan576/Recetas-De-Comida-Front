@@ -41,7 +41,7 @@ const successMessage = ref('');
 const imageUrl = ref(''); // URL de la imagen de perfil
 
 // Aquí defines el placeholderImage como ruta para la imagen por defecto
-const placeholderImage = '/Mono.jpeg'; // Asegúrate de que esta ruta sea correcta
+const placeholderImage = '/avatar.png'; // Asegúrate de que esta ruta sea correcta
 
 // Función para abrir el selector de archivos al hacer clic en la imagen
 const triggerFileUpload = () => {
@@ -62,7 +62,7 @@ const onFileChange = (e) => {
 // Cargar datos del perfil al montar el componente
 onMounted(async () => {
   try {
-    const response = await fetch(`http://localhost:4000/api/profile/1`);
+    const response = await fetch(`http://localhost:4000/api/profile`);
     const data = await response.json();
     form.value.username = data.nombre_usuario;
     form.value.description = data.descripcion || '';
@@ -84,7 +84,7 @@ const handleUpdate = async () => {
   }
 
   try {
-    const response = await fetch(`http://localhost:4000/api/profile/1`, {
+    const response = await fetch(`http://localhost:4000/api/profile`, {
       method: 'PUT',
       body: formData,
     });
@@ -125,7 +125,10 @@ const handleUpdate = async () => {
   height: 150px;
   border-radius: 50%;
   cursor: pointer;
+  
 }
+
+
 
 h2 {
   margin-bottom: 20px;

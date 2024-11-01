@@ -80,7 +80,15 @@
 export default {
   methods: {
     goToRecipes(category) {
-      this.$router.push(`/recipes/${category}`);  // Usamos la estructura '/recipes/'
+      const isAuthenticated = localStorage.getItem('user'); // Verifica si hay un usuario en localStorage
+
+      if (isAuthenticated) {
+        // Si el usuario está autenticado, lo redirige a las recetas
+        this.$router.push(`/recipes/${category}`);
+      } else {
+        // Si no está autenticado, lo redirige al login
+        this.$router.push('/login');
+      }
     },
     isOdd(index) {
       return index % 2 !== 0;
