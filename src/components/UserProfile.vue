@@ -30,6 +30,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { username, login } from '../AuthStore'; // Importa `username` y `login`
 
 const form = ref({
   username: '',
@@ -39,6 +40,7 @@ const form = ref({
 const errorMessage = ref('');
 const successMessage = ref('');
 const imageUrl = ref(''); // URL de la imagen de perfil
+const userId = localStorage.getItem('userId'); // Recupera el userId del almacenamiento local
 
 // Aquí defines el placeholderImage como ruta para la imagen por defecto
 const placeholderImage = '/avatar.png'; // Asegúrate de que esta ruta sea correcta
@@ -62,18 +64,16 @@ const onFileChange = (e) => {
 // Cargar datos del perfil al montar el componente
 onMounted(async () => {
   try {
-    const response = await fetch(`http://localhost:4000/api/profile`);
+    const response = await fetch(`http://localhost:4000/api/profile/${userId}`);
     const data = await response.json();
     form.value.username = data.nombre_usuario;
     form.value.description = data.descripcion || '';
-    // Usa una URL completa para imagen_perfil
     imageUrl.value = data.imagen_perfil ? `http://localhost:4000${data.imagen_perfil}` : placeholderImage;
-    console.log("URL de la imagen de perfil:", imageUrl.value); // Verifica en la consola
+    console.log("URL de la imagen de perfil:", imageUrl.value);
   } catch (error) {
     errorMessage.value = 'Error al cargar el perfil';
   }
 });
-
 
 const handleUpdate = async () => {
   const formData = new FormData();
@@ -84,14 +84,20 @@ const handleUpdate = async () => {
   }
 
   try {
-    const response = await fetch(`http://localhost:4000/api/profile`, {
+    // Usa el userId del localStorage
+    const response = await fetch(`http://localhost:4000/api/profile/${userId}`, {
       method: 'PUT',
       body: formData,
     });
+
     const data = await response.json();
     if (response.ok) {
       successMessage.value = 'Perfil actualizado con éxito';
       errorMessage.value = '';
+
+      // Actualiza el nombre de usuario global
+      login({ username: form.value.username });
+      username.value = form.value.username; // Actualiza también el `username`
     } else {
       errorMessage.value = data.message || 'Error al actualizar el perfil';
       successMessage.value = '';
@@ -102,8 +108,6 @@ const handleUpdate = async () => {
   }
 };
 </script>
-
-
 
 <style scoped>
 .profile-page {
@@ -125,10 +129,7 @@ const handleUpdate = async () => {
   height: 150px;
   border-radius: 50%;
   cursor: pointer;
-  
 }
-
-
 
 h2 {
   margin-bottom: 20px;
