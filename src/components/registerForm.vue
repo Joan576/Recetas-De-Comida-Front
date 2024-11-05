@@ -3,34 +3,28 @@
     <div class="register-container">
       <h2>Registro</h2>
       <form @submit.prevent="handleSubmit">
-        <div>
+        <div class="input-group">
           <label for="username">Nombre de Usuario:</label>
-          <div style="text-align: center;">
-            <input v-model="form.username" type="text" id="username" required />
-          </div>
-        </div>
-        <div>
-          <label for="email">Correo Electrónico:</label>
-          <div style="text-align: center;">
-            <input v-model="form.email" type="email" id="email" required />
-          </div>
-        </div>
-        <div>
-          <label for="password">Contraseña:</label>
-          <div style="text-align: center;">
-            <input v-model="form.password" type="password" id="password" required />
-          </div>
-        </div>
-        <div>
-          <label for="confirmPassword">Confirmar Contraseña:</label>
-          <div style="text-align: center;">
-            <input v-model="form.confirmPassword" type="password" id="confirmPassword" required />
-          </div>
+          <input v-model="form.username" type="text" id="username" required placeholder="Ingresa tu nombre de usuario" />
         </div>
 
-        <!-- Checkbox para aceptar los términos y condiciones -->
+        <div class="input-group">
+          <label for="email">Correo Electrónico:</label>
+          <input v-model="form.email" type="email" id="email" required placeholder="Ingresa tu correo" />
+        </div>
+
+        <div class="input-group">
+          <label for="password">Contraseña:</label>
+          <input v-model="form.password" type="password" id="password" required placeholder="Ingresa tu contraseña" />
+        </div>
+
+        <div class="input-group">
+          <label for="confirmPassword">Confirmar Contraseña:</label>
+          <input v-model="form.confirmPassword" type="password" id="confirmPassword" required placeholder="Confirma tu contraseña" />
+        </div>
+
         <div class="terms">
-          <input type="checkbox" id="terms" v-model="form.acceptTerms" />
+          <input type="checkbox" id="terms" v-model="form.acceptTerms" /> 
           <label for="terms">
             Acepto los <a href="#">términos y condiciones</a>
           </label>
@@ -39,7 +33,6 @@
         <div v-if="error" class="error">{{ error }}</div>
         <div v-if="success" class="success">{{ success }}</div>
 
-        <!-- Botón de registrar que se deshabilita si no se aceptan los términos -->
         <button type="submit" :disabled="!form.acceptTerms">Registrar</button>
       </form>
     </div>
@@ -48,19 +41,19 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router'; 
+import { useRouter } from 'vue-router';
 
 const form = ref({
   username: '',
   email: '',
   password: '',
   confirmPassword: '',
-  acceptTerms: false, 
+  acceptTerms: false,
 });
 const error = ref('');
 const success = ref('');
 
-const router = useRouter(); 
+const router = useRouter();
 
 const handleSubmit = async () => {
   if (form.value.password !== form.value.confirmPassword) {
@@ -71,15 +64,15 @@ const handleSubmit = async () => {
     success.value = '';
   } else {
     error.value = '';
-    
+
     const usuarioData = {
       username: form.value.username,
       email: form.value.email,
-      password: form.value.password, // Envía la contraseña en texto plano
+      password: form.value.password,
     };
 
     try {
-      const response = await fetch('http://localhost:4000/api/usuarios/register', { 
+      const response = await fetch('http://localhost:4000/api/usuarios/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -107,7 +100,6 @@ const handleSubmit = async () => {
   }
 };
 </script>
-
 
 <style scoped>
 * {
@@ -140,11 +132,10 @@ html, body {
   padding: 20px;
   border: 1px solid #000;
   border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
   width: 100%;
-  background-color: rgba(222, 222, 222, 0.8); /* Ajuste de transparencia */
+  background-color: rgba(222, 222, 222, 0.8);
 }
-
 
 h2 {
   text-align: center;
@@ -152,7 +143,7 @@ h2 {
 }
 
 .input-group {
-  margin: 15px;
+  margin: 10px;
 }
 
 label {
@@ -165,7 +156,7 @@ label {
 input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #b2b2b2;
   border-radius: 5px;
   display: block;
   margin: 0 auto;
@@ -174,23 +165,20 @@ input {
 .terms {
   display: flex;
   align-items: center;
-  margin: 15px 0;
+  margin: 10px 0;
 }
 
 .terms input[type="checkbox"] {
-  margin-right: 5px; /* Reduce la distancia entre el checkbox y el texto */
-  margin-left: 0; /* Asegura que el checkbox esté alineado a la izquierda */
-  padding: 0; /* Elimina cualquier padding en el checkbox */
+  margin-right: 0px;
 }
 
 .terms label {
-  margin: 0; /* Elimina cualquier margen en el texto */
-  white-space: nowrap; /* Evita que el texto salte a otra línea */
+  margin: 0;
+  font-size: 14px;
 }
- 
 
 button {
-  margin-top: 15px;
+  margin-top: 10px;
   width: 100%;
   padding: 10px;
   background-color: #007BFF;
@@ -206,6 +194,7 @@ button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
+
 
 button:hover:not(:disabled) {
   background-color: #0056b3;

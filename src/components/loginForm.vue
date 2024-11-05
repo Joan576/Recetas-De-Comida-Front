@@ -100,10 +100,12 @@ html, body {
   padding: 20px;
   border: 1px solid #000;
   border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
   width: 100%;
   background-color: #dedede;
   padding-left: 5px;
+  background-color: rgba(222, 222, 222, 0.8); 
+  ;
 }
 
 h2 {
@@ -125,10 +127,11 @@ label {
 input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #b2b2b2;
   border-radius: 5px;
   display: block;
   margin: 0 auto;
+  
 
 }
 

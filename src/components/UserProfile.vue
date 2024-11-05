@@ -8,7 +8,14 @@
     </div>
 
     <form @submit.prevent="handleUpdate">
-      <input type="file" id="imagen_perfil" ref="fileInput" @change="onFileChange" accept="image/jpeg, image/png" style="display: none;" />
+      <input
+        type="file"
+        id="imagen_perfil"
+        ref="fileInput"
+        @change="onFileChange"
+        accept="image/jpeg, image/png"
+        style="display: none;"
+      />
 
       <div class="input-group">
         <label for="username">Nombre de Usuario:</label>
@@ -17,7 +24,11 @@
 
       <div class="input-group">
         <label for="description">Descripción:</label>
-        <textarea id="description" v-model="form.description" placeholder="Añade una breve descripción de ti..."></textarea>
+        <textarea
+          id="description"
+          v-model="form.description"
+          placeholder="Añade una breve descripción de ti..."
+        ></textarea>
       </div>
 
       <button type="submit">Guardar Cambios</button>
@@ -31,6 +42,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { username, login } from '../AuthStore'; // Importa `username` y `login`
+import { storage } from "../services/firebase"; // Importa storage desde firebase.js
+import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage"; // Importa funciones de Firebase Storage
 
 const form = ref({
   username: '',
@@ -51,13 +64,39 @@ const triggerFileUpload = () => {
 };
 
 // Función para manejar el cambio de archivo
-const onFileChange = (e) => {
+const onFileChange = async (e) => {
   const file = e.target.files[0];
   if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
-    form.value.imagen_perfil = file;
-    imageUrl.value = URL.createObjectURL(file); // Previsualizar la imagen cargada
+    try {
+      // Llama a la función para subir la imagen y obtener la URL
+      const uploadedImageUrl = await uploadProfileImage(file);
+      if (uploadedImageUrl) {
+        imageUrl.value = uploadedImageUrl;
+        form.value.imagen_perfil = uploadedImageUrl; // Guarda la URL en el formulario
+      }
+    } catch (error) {
+      errorMessage.value = 'Error al subir la imagen';
+    }
   } else {
     errorMessage.value = 'Solo se permiten archivos JPEG o PNG';
+  }
+};
+
+// Función para subir la imagen de perfil a Firebase Storage
+const uploadProfileImage = async (file) => {
+  try {
+    // Crea una referencia de almacenamiento única para la imagen
+    const storageReference = storageRef(storage, `profile_images/${file.name}-${Date.now()}`);
+    
+    // Sube la imagen a Firebase Storage
+    const snapshot = await uploadBytes(storageReference, file);
+    
+    // Obtén la URL de descarga de la imagen
+    const downloadURL = await getDownloadURL(snapshot.ref);
+    return downloadURL;
+  } catch (error) {
+    console.error("Error al subir la imagen:", error);
+    throw error;
   }
 };
 
@@ -68,27 +107,25 @@ onMounted(async () => {
     const data = await response.json();
     form.value.username = data.nombre_usuario;
     form.value.description = data.descripcion || '';
-    imageUrl.value = data.imagen_perfil ? `http://localhost:4000${data.imagen_perfil}` : placeholderImage;
-    console.log("URL de la imagen de perfil:", imageUrl.value);
+    imageUrl.value = data.imagen_perfil ? data.imagen_perfil : placeholderImage;
   } catch (error) {
     errorMessage.value = 'Error al cargar el perfil';
   }
 });
 
 const handleUpdate = async () => {
-  const formData = new FormData();
-  formData.append('username', form.value.username);
-  formData.append('description', form.value.description);
-  if (form.value.imagen_perfil) {
-    formData.append('imagen_perfil', form.value.imagen_perfil);
-  }
-
   try {
-    // Usa el userId del localStorage
     const response = await fetch(`http://localhost:4000/api/profile/${userId}`, {
       method: 'PUT',
-      body: formData,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(form.value), // Enviar el objeto form como JSON
     });
+
+    if (!response.ok) {
+      throw new Error('Error en la solicitud al servidor');
+    }
 
     const data = await response.json();
     if (response.ok) {
