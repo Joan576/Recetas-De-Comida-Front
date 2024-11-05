@@ -1,41 +1,43 @@
 <template>
   <div class="profile-page">
-    <h2>Perfil de Usuario</h2>
+    <div class="profile-container">
+      <h2>Perfil de Usuario</h2>
 
-    <!-- Mostrar la imagen de perfil -->
-    <div class="profile-image-container">
-      <img :src="imageUrl || placeholderImage" alt="Imagen de perfil" class="profile-image" @click="triggerFileUpload" />
+      <!-- Mostrar la imagen de perfil -->
+      <div class="profile-image-container">
+        <img :src="imageUrl || placeholderImage" alt="Imagen de perfil" class="profile-image" @click="triggerFileUpload" />
+      </div>
+
+      <form @submit.prevent="handleUpdate">
+        <input
+          type="file"
+          id="imagen_perfil"
+          ref="fileInput"
+          @change="onFileChange"
+          accept="image/jpeg, image/png"
+          style="display: none;"
+        />
+
+        <div class="input-group">
+          <label for="username">Nombre de Usuario:</label>
+          <input type="text" id="username" v-model="form.username" required />
+        </div>
+
+        <div class="input-group">
+          <label for="description">Descripción:</label>
+          <textarea
+            id="description"
+            v-model="form.description"
+            placeholder="Añade una breve descripción de ti..."
+          ></textarea>
+        </div>
+
+        <button type="submit">Guardar Cambios</button>
+
+        <p v-if="successMessage" class="success">{{ successMessage }}</p>
+        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+      </form>
     </div>
-
-    <form @submit.prevent="handleUpdate">
-      <input
-        type="file"
-        id="imagen_perfil"
-        ref="fileInput"
-        @change="onFileChange"
-        accept="image/jpeg, image/png"
-        style="display: none;"
-      />
-
-      <div class="input-group">
-        <label for="username">Nombre de Usuario:</label>
-        <input type="text" id="username" v-model="form.username" required />
-      </div>
-
-      <div class="input-group">
-        <label for="description">Descripción:</label>
-        <textarea
-          id="description"
-          v-model="form.description"
-          placeholder="Añade una breve descripción de ti..."
-        ></textarea>
-      </div>
-
-      <button type="submit">Guardar Cambios</button>
-
-      <p v-if="successMessage" class="success">{{ successMessage }}</p>
-      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-    </form>
   </div>
 </template>
 
@@ -104,10 +106,10 @@ const uploadProfileImage = async (file) => {
 onMounted(async () => {
   try {
     const response = await fetch(`http://localhost:4000/api/profile/${userId}`);
-    const data = await response.json();
-    form.value.username = data.nombre_usuario;
-    form.value.description = data.descripcion || '';
-    imageUrl.value = data.imagen_perfil ? data.imagen_perfil : placeholderImage;
+    const profileData = await response.json(); // Cambié 'data' a 'profileData'
+    form.value.username = profileData.nombre_usuario; // Usa 'profileData'
+    form.value.description = profileData.descripcion || '';
+    imageUrl.value = profileData.imagen_perfil ? profileData.imagen_perfil : placeholderImage;
   } catch (error) {
     errorMessage.value = 'Error al cargar el perfil';
   }
@@ -127,18 +129,13 @@ const handleUpdate = async () => {
       throw new Error('Error en la solicitud al servidor');
     }
 
-    const data = await response.json();
-    if (response.ok) {
-      successMessage.value = 'Perfil actualizado con éxito';
-      errorMessage.value = '';
+    await response.json(); // Se eliminó la asignación a 'data' que no se usaba
+    successMessage.value = 'Perfil actualizado con éxito';
+    errorMessage.value = '';
 
-      // Actualiza el nombre de usuario global
-      login({ username: form.value.username });
-      username.value = form.value.username; // Actualiza también el `username`
-    } else {
-      errorMessage.value = data.message || 'Error al actualizar el perfil';
-      successMessage.value = '';
-    }
+    // Actualiza el nombre de usuario global
+    login({ username: form.value.username });
+    username.value = form.value.username; // Actualiza también el `username`
   } catch (error) {
     errorMessage.value = 'Error en el servidor: ' + error.message;
     successMessage.value = '';
@@ -147,7 +144,8 @@ const handleUpdate = async () => {
 </script>
 
 <style scoped>
-.profile-page {
+
+.profile-container {
   max-width: 500px;
   margin: 0 auto;
   padding: 20px;
@@ -155,7 +153,25 @@ const handleUpdate = async () => {
   border-radius: 10px;
   background-color: #f9f9f9;
   text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  width: 100%;
+  background-color: rgba(222, 222, 222, 0.9);
+  
+
 }
+.profile-page{
+  background-image: url('https://images.pexels.com/photos/2773606/pexels-photo-2773606.jpeg');
+  margin: 0;
+  padding: 100px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
 
 .profile-image-container {
   margin-bottom: 20px;

@@ -188,16 +188,17 @@ video {
   justify-content: space-around;
   gap: 50px;
   padding-bottom: 35px;
+  
 }
 
 /* Tarjeta de receta */
 .recipe-card {
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 250px;
   text-align: center;
   transition: transform 0.2s ease-in-out;
+  box-shadow: 0 2px 10px rgba(9, 9, 9, 0.8);
 }
 
 .recipe-card:hover {
