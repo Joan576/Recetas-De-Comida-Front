@@ -1,15 +1,18 @@
-<!-- src/views/MiVista.vue -->
 <template>
-    <div>
-      <FeedPage/>
-    </div>
-    
-    
-  </template>
-  
-  <script setup>
-import FeedPage from '@/components/FeedPage.vue';
-  </script>
-  
-  <style scoped>
-  </style>
+  <div>
+    <FeedEntradas />
+
+  </div>
+</template>
+
+<script setup>
+import FeedEntradas from '@/components/FeedEntradas.vue';
+
+
+
+
+</script>
+
+<style scoped>
+/* Estilos generales para la página del feed */
+</style>
