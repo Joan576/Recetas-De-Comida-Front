@@ -43,7 +43,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { username, login } from '../AuthStore'; // Importa `username` y `login`
+import { username, login } from '../AuthStore'; // Importa username y login
 import { storage } from "../services/firebase"; // Importa storage desde firebase.js
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage"; // Importa funciones de Firebase Storage
 
@@ -135,7 +135,7 @@ const handleUpdate = async () => {
 
     // Actualiza el nombre de usuario global
     login({ username: form.value.username });
-    username.value = form.value.username; // Actualiza también el `username`
+    username.value = form.value.username; // Actualiza también el username
   } catch (error) {
     errorMessage.value = 'Error en el servidor: ' + error.message;
     successMessage.value = '';
@@ -144,7 +144,6 @@ const handleUpdate = async () => {
 </script>
 
 <style scoped>
-
 .profile-container {
   max-width: 500px;
   margin: 0 auto;
@@ -156,10 +155,9 @@ const handleUpdate = async () => {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
   width: 100%;
   background-color: rgba(222, 222, 222, 0.9);
-  
-
 }
-.profile-page{
+
+.profile-page {
   background-image: url('https://images.pexels.com/photos/2773606/pexels-photo-2773606.jpeg');
   margin: 0;
   padding: 100px;
@@ -171,7 +169,6 @@ const handleUpdate = async () => {
   align-items: center;
   box-sizing: border-box;
 }
-
 
 .profile-image-container {
   margin-bottom: 20px;

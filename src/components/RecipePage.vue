@@ -85,6 +85,7 @@ export default {
       if (isAuthenticated) {
         // Si el usuario está autenticado, lo redirige a las recetas
         this.$router.push(`/recipes/${category}`);
+
       } else {
         // Si no está autenticado, lo redirige al login
         this.$router.push('/login');

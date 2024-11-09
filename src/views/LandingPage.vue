@@ -1,18 +1,17 @@
 <!-- src/views/MiVista.vue -->
 <template>
-    <div>
-      <HomePage/>
-      <AboutPage/>
-    </div>
-    
-    
-  </template>
+  <div>
+    <HomePage/>
+    <AboutPage/>
+  </div>
   
-  <script setup>
-  import HomePage from '../components/HomePage.vue';
-  import AboutPage from '../components/AboutPage.vue';
-  </script>
   
-  <style scoped>
-  </style>
-  
+</template>
+
+<script setup>
+import HomePage from '../components/HomePage.vue';
+import AboutPage from '../components/AboutPage.vue';
+</script>
+
+<style scoped>
+</style>
