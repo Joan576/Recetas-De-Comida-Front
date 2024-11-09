@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import MainView from '../views/MainView.vue';
+import HomePage from '../views/LandingPage.vue';
 
 const routes = [
   { path: '/', component: MainView, children: [
-    { path: '', component: () => import('../components/HomePage.vue') },
     { path: 'login', component: () => import('../components/LoginForm.vue') },
     { path: 'register', component: () => import('../components/RegisterForm.vue') },
     { path: 'acerca-de', component: () => import('../components/AboutPage.vue') },
@@ -14,8 +14,10 @@ const routes = [
     { path: 'recipes/platos-fuertes', component: () => import('../components/PlatosFuertesPage.vue') },
     { path: 'perfil', component: () => import('../components/UserProfile.vue') },
     { path: 'feed', component: () => import('../components/FeedPage.vue') },
-
+    {path:'guardado', component: ()=> import('../components/GuardoPage.vue')},
+    {path: '/', name: 'LandingPage', component: HomePage},
   ]}
+  
 ];
 
 const router = createRouter({

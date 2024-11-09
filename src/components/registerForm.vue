@@ -130,11 +130,13 @@ html, body {
 .register-container {
   max-width: 400px;
   padding: 20px;
-  border: 1px solid #000;
+  color: white;
+  border: 1px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
   width: 100%;
-  background-color: rgba(222, 222, 222, 0.8);
+  background-color: rgba(0, 0, 0, 0.8); 
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
 }
 
 h2 {
@@ -156,7 +158,7 @@ label {
 input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #b2b2b2;
+  border: 1.7px solid #000000;
   border-radius: 5px;
   display: block;
   margin: 0 auto;
@@ -175,13 +177,14 @@ input {
 .terms label {
   margin: 0;
   font-size: 14px;
+
 }
 
 button {
   margin-top: 10px;
   width: 100%;
   padding: 10px;
-  background-color: #007BFF;
+  background-color: #a80000;
   color: white;
   border: none;
   border-radius: 5px;
@@ -193,11 +196,12 @@ button {
 button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+  color:#000000;
 }
 
 
 button:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: #880101;
 }
 
 .error {
@@ -211,4 +215,8 @@ button:hover:not(:disabled) {
   margin-top: 10px;
   font-size: 14px;
 }
+
+a {
+  color: rgb(172, 0, 0);
+  }
 </style>

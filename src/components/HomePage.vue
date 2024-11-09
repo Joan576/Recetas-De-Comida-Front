@@ -81,6 +81,7 @@ html, body {
   margin-top: 0px;
   margin-bottom: 0px;
   z-index: 1;
+  padding: 150px;
 }
 
 .cta-title {

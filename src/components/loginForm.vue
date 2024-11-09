@@ -97,14 +97,15 @@ html, body {
 
 .login-container {
   max-width: 400px;
+  color: white;
   padding: 20px;
-  border: 1px solid #000;
+  border: 1px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
   width: 100%;
-  background-color: #dedede;
   padding-left: 5px;
-  background-color: rgba(222, 222, 222, 0.8); 
+  background-color: rgba(0, 0, 0, 0.8); 
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
   ;
 }
 
@@ -127,7 +128,7 @@ label {
 input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #b2b2b2;
+  border: 1.7px solid #000000;
   border-radius: 5px;
   display: block;
   margin: 0 auto;
@@ -139,7 +140,7 @@ button {
   margin-top: 15px;
   width: 100%;
   padding: 10px;
-  background-color: #007BFF;
+  background-color: #a80000;
   color: white;
   border: none;
   border-radius: 5px;
@@ -149,7 +150,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #a80000c9;
 }
 
 .error {
@@ -162,5 +163,8 @@ button:hover {
   color: green;
   margin-top: 10px;
   font-size: 14px;
+}
+a{
+  color: rgb(172, 0, 0);
 }
 </style>

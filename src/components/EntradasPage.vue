@@ -59,70 +59,31 @@
   </div>
 </template>
 
-
 <script>
+import axios from 'axios'; // Importa axios
+
 export default {
   data() {
     return {
-      recipes: [
-        {
-          id: 1,
-          name: "Nachos con Carne",
-          description: "Deliciosos nachos con carne, queso y guacamole.",
-          image:
-            "https://assets.unileversolutions.com/recipes-v2/244540.jpg",
-          videoUrl: "https://www.youtube.com/embed/uRw5aSM1VWY",
-          ingredients: ["Carne", "Queso", "Guacamole", "Nachos", "Cebolla"]
-        },
-        {
-          id: 2,
-          name: "Canastas de queso y atún",
-          description:
-            "Deliciosas canastas hechas de queso con relleno de atún.",
-          image:
-            "https://images.getrecipekit.com/20230103151855-canastitas-de-at-c3-ban.png",
-          videoUrl: "https://www.youtube.com/embed/S--hTMZWECY",
-          ingredients: ["Queso", "Atún", "Tomate", "Cebolla"]
-        },
-        {
-          id: 3,
-          name: "Tostadas francesas",
-          description:
-            "Riquísimas tostadas francesas con salsa de queso dulce, fáciles de hacer.",
-          image:
-            "https://t1.uc.ltmcdn.com/es/posts/4/4/0/como_hacer_una_tostada_francesa_rapidamente_16044_orig.jpg",
-          videoUrl: "https://www.youtube.com/embed/AsRWf2QDlMM",
-          ingredients: [
-            "1 Rebanada de pan",
-            "2 huevos",
-            "1/2 taza de leche",
-            "1 cucharada de leche condensada o azúcar",
-            "1 cucharadita de café",
-            "5 cucharadas de quesito (queso fresco)",
-            "5 cucharadas de crema de leche",
-            "3 cucharadas de dulce (chocolate)"
-          ]
-        },
-        {
-          id: 4,
-          name: "Roscones de queso",
-          description:
-            "Deliciosos roscones de queso para preparar en el horno o airfryer.",
-          image:
-            "https://assets.elgourmet.com/wp-content/uploads/2023/10/shutterstock_1758025376-1-1024x683.jpg.webp",
-          videoUrl: "https://www.youtube.com/embed/lIlswhsZu-k",
-          ingredients: [
-            "5 cucharadas de leche en polvo",
-            "3 cucharadas de harina de trigo",
-            "1/2 taza de queso parmesano",
-            "150 gramos de quesito"
-          ]
-        }
-      ],
+      recipes: [], // Cambiar para inicializar como un array vacío
       selectedRecipe: null,
     };
   },
+  created() {
+    this.fetchRecipes(); // Llama a la función para obtener las recetas cuando el componente se monta
+  },
   methods: {
+    async fetchRecipes() {
+      try {
+        const response = await axios.get('http://localhost:4000/api/recipes'); // Cambia 'tu-backend-url' por tu URL real
+        this.recipes = response.data; // Asigna los datos obtenidos a recipes
+      } catch (error) {
+        console.error('Error al obtener las recetas:', error);
+      }
+    },
+
+    
+
     selectRecipe(recipe) {
       this.selectedRecipe = recipe;
       this.$nextTick(() => {
@@ -141,7 +102,6 @@ export default {
 </script>
 
 <style scoped>
-
 /* Video de fondo */
 .background-video {
   position: fixed; /* Hace que el video esté fijado en el fondo */
@@ -168,7 +128,6 @@ video {
 }
 
 /* Título de la página */
-/* Título de la página */
 .title {
   text-align: center;
   font-size: 48px; /* Tamaño más grande */
@@ -179,8 +138,6 @@ video {
   animation: glow 1.5s ease-in-out infinite; /* Efecto de brillo suave */
 }
 
-
-
 /* Contenedor de las recetas */
 .recipes-container {
   display: flex;
@@ -188,7 +145,6 @@ video {
   justify-content: space-around;
   gap: 50px;
   padding-bottom: 35px;
-  
 }
 
 /* Tarjeta de receta */
