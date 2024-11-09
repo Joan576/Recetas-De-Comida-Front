@@ -146,15 +146,17 @@ const handleUpdate = async () => {
 <style scoped>
 .profile-container {
   max-width: 500px;
+  color: white;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px;
   border-radius: 10px;
   background-color: #f9f9f9;
   text-align: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
   width: 100%;
-  background-color: rgba(222, 222, 222, 0.9);
+  background-color: rgba(0, 0, 0, 0.8); 
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
 }
 
 .profile-page {
@@ -206,7 +208,7 @@ textarea {
 button {
   width: 100%;
   padding: 10px;
-  background-color: #007BFF;
+  background-color: #a80000;
   color: white;
   border: none;
   border-radius: 5px;
@@ -216,7 +218,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #a80000c9;
 }
 
 .error {
