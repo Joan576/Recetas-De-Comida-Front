@@ -3,13 +3,13 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // Configuración de Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyD6TZ2R20hsYQ31Tu_IrrTPkdcCS3XGTAk",
-  authDomain: "recetas-comida.firebaseapp.com",
-  projectId: "recetas-comida",
-  storageBucket: "recetas-comida.appspot.com",
-  messagingSenderId: "1048196723461",
-  appId: "1:1048196723461:web:9d50ef704977fdd0d67d6",
-  measurementId: "G-Z9YQ7DQYVK"
+  apiKey: "AIzaSyATuxMKr0ylQaruROcgf-Ap8651-IisVKk",
+  authDomain: "novamarketapp.firebaseapp.com",
+  projectId: "novamarketapp",
+  storageBucket: "novamarketapp.appspot.com",
+  messagingSenderId: "21433362214",
+  appId: "1:21433362214:web:b66a900913c514be9643e7",
+  measurementId: "G-6RDJ7G6MQE"
 };
 
 // Inicializar Firebase
@@ -18,7 +18,7 @@ const storage = getStorage(app);
 
 // Función para subir una imagen y obtener la URL
 export const uploadImage = async (file) => {
-  const storageRef = ref(storage, 'profileImages/' + file.name); // Cambia la carpeta según necesites
+  const storageRef = ref(storage, 'recetas-comida-profile/' + file.name); // Cambia la carpeta según necesites
   try {
     await uploadBytes(storageRef, file);
     const downloadURL = await getDownloadURL(storageRef);

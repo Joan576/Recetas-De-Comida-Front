@@ -5,7 +5,7 @@
 
       <!-- Mostrar la imagen de perfil -->
       <div class="profile-image-container">
-        <img :src="imageUrl || placeholderImage" alt="Imagen de perfil" class="profile-image" @click="triggerFileUpload" />
+        <img :src="previewImageUrl || imageUrl || placeholderImage" alt="Imagen de perfil" class="profile-image" @click="triggerFileUpload" />
       </div>
 
       <form @submit.prevent="handleUpdate">
@@ -33,6 +33,7 @@
         </div>
 
         <button type="submit">Guardar Cambios</button>
+        <button type="button" @click="cancelChanges" style="margin-top: 10px;">Cancelar</button>
 
         <p v-if="successMessage" class="success">{{ successMessage }}</p>
         <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
@@ -43,9 +44,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { username, login } from '../AuthStore'; // Importa username y login
-import { storage } from "../services/firebase"; // Importa storage desde firebase.js
-import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage"; // Importa funciones de Firebase Storage
+import { username, login } from '../AuthStore';
 
 const form = ref({
   username: '',
@@ -54,51 +53,32 @@ const form = ref({
 });
 const errorMessage = ref('');
 const successMessage = ref('');
-const imageUrl = ref(''); // URL de la imagen de perfil
-const userId = localStorage.getItem('userId'); // Recupera el userId del almacenamiento local
-
-// Aquí defines el placeholderImage como ruta para la imagen por defecto
-const placeholderImage = '/avatar.png'; // Asegúrate de que esta ruta sea correcta
+const imageUrl = ref(''); // URL de la imagen actual en la base de datos
+const previewImageUrl = ref(''); // URL temporal para la imagen de vista previa
+const userId = localStorage.getItem('userId');
+const placeholderImage = '/avatar.png';
 
 // Función para abrir el selector de archivos al hacer clic en la imagen
 const triggerFileUpload = () => {
   document.getElementById("imagen_perfil").click();
 };
 
-// Función para manejar el cambio de archivo
-const onFileChange = async (e) => {
+// Función para manejar el cambio de archivo y mostrar vista previa
+const onFileChange = (e) => {
   const file = e.target.files[0];
   if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
-    try {
-      // Llama a la función para subir la imagen y obtener la URL
-      const uploadedImageUrl = await uploadProfileImage(file);
-      if (uploadedImageUrl) {
-        imageUrl.value = uploadedImageUrl;
-        form.value.imagen_perfil = uploadedImageUrl; // Guarda la URL en el formulario
-      }
-    } catch (error) {
-      errorMessage.value = 'Error al subir la imagen';
-    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      previewImageUrl.value = reader.result; // Actualiza la URL de vista previa
+      form.value.imagen_perfil = reader.result; // Guarda la imagen en Base64
+    };
+    reader.onerror = (error) => {
+      console.error("Error al leer el archivo:", error);
+      errorMessage.value = 'Error al procesar la imagen';
+    };
+    reader.readAsDataURL(file);
   } else {
     errorMessage.value = 'Solo se permiten archivos JPEG o PNG';
-  }
-};
-
-// Función para subir la imagen de perfil a Firebase Storage
-const uploadProfileImage = async (file) => {
-  try {
-    // Crea una referencia de almacenamiento única para la imagen
-    const storageReference = storageRef(storage, `profile_images/${file.name}-${Date.now()}`);
-    
-    // Sube la imagen a Firebase Storage
-    const snapshot = await uploadBytes(storageReference, file);
-    
-    // Obtén la URL de descarga de la imagen
-    const downloadURL = await getDownloadURL(snapshot.ref);
-    return downloadURL;
-  } catch (error) {
-    console.error("Error al subir la imagen:", error);
-    throw error;
   }
 };
 
@@ -106,15 +86,25 @@ const uploadProfileImage = async (file) => {
 onMounted(async () => {
   try {
     const response = await fetch(`http://localhost:4000/api/profile/${userId}`);
-    const profileData = await response.json(); // Cambié 'data' a 'profileData'
-    form.value.username = profileData.nombre_usuario; // Usa 'profileData'
+    
+    if (!response.ok) {
+      throw new Error(`Error en la respuesta del servidor: ${response.statusText}`);
+    }
+
+    const profileData = await response.json();
+    
+    form.value.username = profileData.nombre_usuario || '';
     form.value.description = profileData.descripcion || '';
     imageUrl.value = profileData.imagen_perfil ? profileData.imagen_perfil : placeholderImage;
+    previewImageUrl.value = imageUrl.value; // Establece la vista previa inicial en la imagen actual
+    
   } catch (error) {
-    errorMessage.value = 'Error al cargar el perfil';
+    console.error("Error al cargar el perfil:", error);
+    errorMessage.value = 'Error al cargar el perfil. Por favor, intenta de nuevo más tarde.';
   }
 });
 
+// Función para guardar cambios
 const handleUpdate = async () => {
   try {
     const response = await fetch(`http://localhost:4000/api/profile/${userId}`, {
@@ -122,24 +112,31 @@ const handleUpdate = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(form.value), // Enviar el objeto form como JSON
+      body: JSON.stringify(form.value),
     });
 
     if (!response.ok) {
       throw new Error('Error en la solicitud al servidor');
     }
 
-    await response.json(); // Se eliminó la asignación a 'data' que no se usaba
+    await response.json();
     successMessage.value = 'Perfil actualizado con éxito';
     errorMessage.value = '';
-
-    // Actualiza el nombre de usuario global
+    imageUrl.value = previewImageUrl.value; // Actualiza la imagen definitiva con la vista previa
     login({ username: form.value.username });
-    username.value = form.value.username; // Actualiza también el username
+    username.value = form.value.username;
   } catch (error) {
     errorMessage.value = 'Error en el servidor: ' + error.message;
     successMessage.value = '';
   }
+};
+
+// Función para cancelar los cambios
+const cancelChanges = () => {
+  previewImageUrl.value = imageUrl.value; // Restablece la vista previa a la imagen guardada
+  form.value.imagen_perfil = null; // Borra la imagen en base64 en el formulario para no enviarla
+  errorMessage.value = '';
+  successMessage.value = '';
 };
 </script>
 
@@ -147,7 +144,7 @@ const handleUpdate = async () => {
 .profile-container {
   max-width: 500px;
   color: white;
-  margin: 0 auto;
+  margin: 0px auto;
   padding: 20px;
   border: 1px;
   border-radius: 10px;
@@ -162,15 +159,18 @@ const handleUpdate = async () => {
 .profile-page {
   background-image: url('https://images.pexels.com/photos/2773606/pexels-photo-2773606.jpeg');
   margin: 0;
-  padding: 100px;
+  padding: 90px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 100vh;
+  height: auto; /* Cambiar la altura para que ajuste automáticamente */
+  min-height: 80vh; /* Mínima altura para pantallas más pequeñas */
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  padding-bottom: 100px; /* Agrega un espacio debajo del contenido */
 }
+
 
 .profile-image-container {
   margin-bottom: 20px;
