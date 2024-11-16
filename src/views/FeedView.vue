@@ -1,18 +1,20 @@
 <template>
   <div>
-    <FeedEntradas />
-
+    <FeedEntradas class="feed-section" />
+    <FeedBebidas class="feed-section" />
+   
   </div>
 </template>
 
 <script setup>
 import FeedEntradas from '@/components/FeedEntradas.vue';
-
-
-
-
+import FeedBebidas from '@/components/FeedBebidas.vue';
+//
 </script>
 
 <style scoped>
-/* Estilos generales para la página del feed */
+.feed-section {
+  margin-bottom: 10px; /* Espacio entre secciones */
+}
+
 </style>
