@@ -19,7 +19,7 @@ const routes = [
   { path: '/recipes/entradas', name: 'EntradasView', component: EntradasPage },
   { path: '/recipes/postres', name: 'PostresView', component: PostresPage },
   { path: '/recipes/bebidas', name: 'BebidasView', component: BebidasPage },
-  { path: '/recipes/platos_fuertes', name: 'PlatosFuertesView', component: PlatosFuertesPage },
+  { path: '/recipes/platos-fuertes', name: 'PlatosFuertesView', component: PlatosFuertesPage },
   { path: '/perfil', name: 'PerfilView', component: UserProfile },
   { path: '/feed', name: 'FeedView', component: FeedPage },
   { path: '/guardado', name: 'GuardoView', component: GuardoPage },

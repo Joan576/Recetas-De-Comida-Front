@@ -1,6 +1,5 @@
 <template>
   <div class="postres-page" style="margin-bottom: 21px;">
-
     <!-- Video de fondo -->
     <div class="background-video">
       <video autoplay loop muted>
@@ -21,13 +20,13 @@
         @click="selectRecipe(recipe)"
       >
         <img
-          :src="recipe.image"
-          :alt="recipe.name"
+          :src="recipe.imagen"
+          :alt="recipe.nombre"
           class="recipe-image"
         />
         <div class="recipe-info">
-          <h2>{{ recipe.name }}</h2>
-          <p>{{ recipe.description }}</p>
+          <h2>{{ recipe.nombre }}</h2>
+          <p>{{ recipe.descripcion }}</p>
           <button @click="selectRecipe(recipe)">Ver Receta</button>
         </div>
       </div>
@@ -35,89 +34,73 @@
 
     <!-- Detalles de la receta seleccionada -->
     <div v-if="selectedRecipe" class="recipe-details" ref="recipeDetails">
-      <h2>{{ selectedRecipe.name }}</h2>
+      <h2>{{ selectedRecipe.nombre }}</h2>
       <div class="ingredients-list">
         <h3>Ingredientes:</h3>
         <ul>
-          <li v-for="(ingredient, index) in selectedRecipe.ingredients" :key="index">
-            {{ ingredient }}
+          <li v-for="(ingrediente, index) in selectedRecipe.ingredientes" :key="index">
+            {{ ingrediente }}
           </li>
         </ul>
       </div>
       <div class="recipe-description">
         <h3>Descripción:</h3>
-        <p>{{ selectedRecipe.description }}</p>
+        <p>{{ selectedRecipe.descripcion }}</p>
       </div>
       <iframe
-        :src="selectedRecipe.videoUrl"
+        :src="selectedRecipe.video_url"
         frameborder="0"
         allowfullscreen
         class="recipe-video"
       ></iframe>
+
       <button @click="closeRecipeDetails">Cerrar</button>
     </div>
-
   </div>
 </template>
 
 <script>
+import api from '@/services/api'; // Configuración de Axios
+
 export default {
   data() {
     return {
-      recipes: [
-        {
-          id: 1,
-          name: "Arroz con leche",
-          description: "Delicioso arroz con leche.",
-          image: "https://th.bing.com/th/id/R.e60c89f5bced94a9f3e9c2bfc80fe25f?rik=QKBWomaV4%2bc3mA&pid=ImgRaw&r=0",
-          videoUrl: "https://www.youtube.com/embed/RUiuVGlyWbc",
-          ingredients: ["Arroz", "agua tibia", "sal", "canela", "leche", "canela en polvo", "leche condensada", "crema de leche", "leche en polvo"]
-        },
-        {
-          id: 2,
-          name: "Helado de oreo",
-          description: "Delicioso helado de oreo fácil de hacer.",
-          image: "https://th.bing.com/th/id/OIP.nkZlrEvuMmjNzkzhfzYFpAHaEK?rs=1&pid=ImgDetMain",
-          videoUrl: "https://www.youtube.com/embed/NmWVSm26u-c",
-          ingredients: ["Crema de leche", "Leche condensada", "Esencia de vainilla", "Galleta oreo"]
-        },
-        {
-          id: 3,
-          name: "Poste de limón",
-          description: "Riquísimas tostadas francesas con salsa de queso dulce, fáciles de hacer.",
-          image: "https://noticias-ahora.com/wp-content/uploads/2020/03/postre-limon-1024x652.jpg",
-          videoUrl: "https://www.youtube.com/embed/GUnW4_7xfEQ",
-          ingredients: ["Limones", "Leche condensada", "Crema leche", "Galletas dulces"]
-        },
-        {
-          id: 4,
-          name: "Fresas con crema",
-          description: "Deliciosas fresas con crema, para chuparse los dedos.",
-          image: "https://th.bing.com/th/id/OIP.LJ4NBnu8WpHQIml360bGQQHaEo?rs=1&pid=ImgDetMain",
-          videoUrl: "https://www.youtube.com/embed/fvQQfWbTvy8",
-          ingredients: ["Crema de leche", "Leche en polvo", "Azúcar", "Fresas"]
-        }
-      ],
-      selectedRecipe: null,
+      recipes: [], // Lista de recetas obtenida desde el backend
+      selectedRecipe: null, // Receta seleccionada
     };
   },
   methods: {
+    // Método para obtener las recetas desde el backend
+    async fetchRecipes() {
+      try {
+        const response = await api.get('/postres'); // Cambiar al endpoint real
+        this.recipes = response.data; // Asignar los datos obtenidos
+      } catch (error) {
+        console.error('Error al obtener las recetas:', error);
+      }
+    },
     selectRecipe(recipe) {
       this.selectedRecipe = recipe;
       this.$nextTick(() => {
         const section = this.$refs.recipeDetails;
         window.scrollTo({
           top: section.offsetTop,
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
       });
     },
     closeRecipeDetails() {
       this.selectedRecipe = null;
-    }
-  }
+    },
+  },
+  mounted() {
+    this.fetchRecipes(); // Llamar al método para obtener recetas cuando el componente se monte
+  },
 };
+
+
 </script>
+
 
 <style scoped>
 /* Video de fondo */
@@ -175,6 +158,13 @@ video {
   transition: transform 0.2s ease-in-out;
 }
 
+.recipe-video {
+  width: 100%;
+  height: 250px;
+  border-radius: 10px;
+}
+
+
 .recipe-card:hover {
   transform: scale(1.05);
 }
@@ -231,6 +221,14 @@ video {
   max-width: 600px;
   margin: 20px auto;
 }
+
+.recipe-video {
+  width: 100%; /* Ajusta al 100% del contenedor */
+  height: 400px; /* Asegúrate de que el alto sea suficiente */
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
 
 .recipe-details h2 {
   color: #a80000;

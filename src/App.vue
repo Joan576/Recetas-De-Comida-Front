@@ -14,4 +14,5 @@ import MainLayout from './layouts/MainLayout.vue'; // Asegúrate de importar el 
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}</style>
+}
+</style>

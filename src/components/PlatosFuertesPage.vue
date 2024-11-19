@@ -4,7 +4,7 @@
     <!-- Video de fondo -->
     <div class="background-video">
       <video autoplay loop muted>
-        <source src="https://videos.pexels.com/video-files/4589119/4589119-hd_1920_1080_24fps.mp4" type="video/mp4" />
+        <source src="../../videos/3298401-uhd_4096_2160_25fps.mp4" type="video/mp4"/>
         Tu navegador no soporta el video.
       </video>
     </div>
@@ -12,8 +12,8 @@
     <!-- Título de la sección -->
     <h1 class="title">Platos Fuertes</h1>
 
-    <!-- Contenedor de las recetas -->
-    <div class="recipes-container">
+     <!-- Contenedor de las recetas -->
+     <div class="recipes-container">
       <div
         class="recipe-card"
         v-for="recipe in recipes"
@@ -21,13 +21,13 @@
         @click="selectRecipe(recipe)"
       >
         <img
-          :src="recipe.image"
-          :alt="recipe.name"
+          :src="recipe.imagen"
+          :alt="recipe.nombre"
           class="recipe-image"
         />
         <div class="recipe-info">
-          <h2>{{ recipe.name }}</h2>
-          <p>{{ recipe.description }}</p>
+          <h2>{{ recipe.nombre }}</h2>
+          <p>{{ recipe.descripcion }}</p>
           <button @click="selectRecipe(recipe)">Ver Receta</button>
         </div>
       </div>
@@ -35,89 +35,73 @@
 
     <!-- Detalles de la receta seleccionada -->
     <div v-if="selectedRecipe" class="recipe-details" ref="recipeDetails">
-      <h2>{{ selectedRecipe.name }}</h2>
+      <h2>{{ selectedRecipe.nombre }}</h2>
       <div class="ingredients-list">
         <h3>Ingredientes:</h3>
         <ul>
-          <li v-for="(ingredient, index) in selectedRecipe.ingredients" :key="index">
-            {{ ingredient }}
+          <li v-for="(ingrediente, index) in selectedRecipe.ingredientes" :key="index">
+            {{ ingrediente }}
           </li>
         </ul>
       </div>
       <div class="recipe-description">
         <h3>Descripción:</h3>
-        <p>{{ selectedRecipe.description }}</p>
+        <p>{{ selectedRecipe.descripcion }}</p>
       </div>
       <iframe
-        :src="selectedRecipe.videoUrl"
+        :src="selectedRecipe.video_url"
         frameborder="0"
         allowfullscreen
         class="recipe-video"
       ></iframe>
+
       <button @click="closeRecipeDetails">Cerrar</button>
     </div>
-
   </div>
 </template>
 
 <script>
+import api from '@/services/api'; // Configuración de Axios
+
 export default {
   data() {
     return {
-      recipes: [
-        {
-          id: 1,
-          name: "Lomo Saltado",
-          description: "Delicioso lomo saltado peruano.",
-          image: "https://example.com/lomo-saltado.jpg",
-          videoUrl: "https://www.youtube.com/embed/example",
-          ingredients: ["Carne de res", "Cebolla", "Tomate", "Papas fritas", "Arroz"]
-        },
-        {
-          id: 2,
-          name: "Pasta Alfredo",
-          description: "Pasta cremosa al estilo Alfredo.",
-          image: "https://example.com/pasta-alfredo.jpg",
-          videoUrl: "https://www.youtube.com/embed/example",
-          ingredients: ["Pasta", "Crema", "Queso parmesano", "Mantequilla", "Perejil"]
-        },
-        {
-          id: 3,
-          name: "Pollo a la brasa",
-          description: "Jugoso pollo a la brasa con especias.",
-          image: "https://example.com/pollo-brasa.jpg",
-          videoUrl: "https://www.youtube.com/embed/example",
-          ingredients: ["Pollo", "Ajo", "Pimienta", "Limón", "Especias"]
-        },
-        {
-          id: 4,
-          name: "Bandeja Paisa",
-          description: "Típico plato colombiano con frijoles, arroz, chicharrón y huevo.",
-          image: "https://example.com/bandeja-paisa.jpg",
-          videoUrl: "https://www.youtube.com/embed/example",
-          ingredients: ["Frijoles", "Arroz", "Carne molida", "Chicharrón", "Huevo"]
-        }
-      ],
-      selectedRecipe: null,
+      recipes: [], // Lista de recetas obtenida desde el backend
+      selectedRecipe: null, // Receta seleccionada
     };
   },
   methods: {
+    // Método para obtener las recetas desde el backend
+    async fetchRecipes() {
+      try {
+        const response = await api.get('/platos-fuertes'); // Cambiar al endpoint real
+        this.recipes = response.data; // Asignar los datos obtenidos
+      } catch (error) {
+        console.error('Error al obtener las recetas:', error);
+      }
+    },
     selectRecipe(recipe) {
       this.selectedRecipe = recipe;
       this.$nextTick(() => {
         const section = this.$refs.recipeDetails;
         window.scrollTo({
           top: section.offsetTop,
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
       });
     },
     closeRecipeDetails() {
       this.selectedRecipe = null;
-    }
-  }
+    },
+  },
+  mounted() {
+    this.fetchRecipes(); // Llamar al método para obtener recetas cuando el componente se monte
+  },
 };
+
+
 </script>
+
 
 <style scoped>
 /* Video de fondo */
@@ -138,7 +122,7 @@ video {
 }
 
 /* Fondo de la página */
-.platos-fuertes-page {
+.postres-page {
   position: relative;
   z-index: 1;
   color: white;
@@ -174,6 +158,13 @@ video {
   text-align: center;
   transition: transform 0.2s ease-in-out;
 }
+
+.recipe-video {
+  width: 100%;
+  height: 250px;
+  border-radius: 10px;
+}
+
 
 .recipe-card:hover {
   transform: scale(1.05);
@@ -231,6 +222,14 @@ video {
   max-width: 600px;
   margin: 20px auto;
 }
+
+.recipe-video {
+  width: 100%; /* Ajusta al 100% del contenedor */
+  height: 400px; /* Asegúrate de que el alto sea suficiente */
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
 
 .recipe-details h2 {
   color: #a80000;

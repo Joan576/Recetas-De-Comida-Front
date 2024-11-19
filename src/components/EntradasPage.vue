@@ -9,7 +9,8 @@
     </div>
 
     <!-- Título de la sección -->
-    <h1 class="title">Entradas y Acompañantes</h1>
+
+    <h1 class="title">Entradas</h1>
 
     <!-- Contenedor de las recetas -->
     <div class="recipes-container">
@@ -20,13 +21,13 @@
         @click="selectRecipe(recipe)"
       >
         <img
-          :src="recipe.image"
-          :alt="recipe.name"
+          :src="recipe.imagen"
+          :alt="recipe.nombre"
           class="recipe-image"
         />
         <div class="recipe-info">
-          <h2>{{ recipe.name }}</h2>
-          <p>{{ recipe.description }}</p>
+          <h2>{{ recipe.nombre }}</h2>
+          <p>{{ recipe.descripcion }}</p>
           <button @click="selectRecipe(recipe)">Ver Receta</button>
         </div>
       </div>
@@ -34,92 +35,91 @@
 
     <!-- Detalles de la receta seleccionada -->
     <div v-if="selectedRecipe" class="recipe-details" ref="recipeDetails">
-      <h2>{{ selectedRecipe.name }}</h2>
+      <h2>{{ selectedRecipe.nombre }}</h2>
       <div class="ingredients-list">
         <h3>Ingredientes:</h3>
         <ul>
-          <li v-for="(ingredient, index) in selectedRecipe.ingredients" :key="index">
-            {{ ingredient }}
+          <li v-for="(ingrediente, index) in selectedRecipe.ingredientes" :key="index">
+            {{ ingrediente }}
           </li>
         </ul>
       </div>
       <div class="recipe-description">
         <h3>Descripción:</h3>
-        <p>{{ selectedRecipe.description }}</p>
+        <p>{{ selectedRecipe.descripcion }}</p>
       </div>
       <iframe
-        :src="selectedRecipe.videoUrl"
+        :src="selectedRecipe.video_url"
         frameborder="0"
         allowfullscreen
         class="recipe-video"
       ></iframe>
+
       <button @click="closeRecipeDetails">Cerrar</button>
     </div>
-
   </div>
 </template>
 
 <script>
-import axios from 'axios'; // Importa axios
+import api from '@/services/api'; // Configuración de Axios
 
 export default {
   data() {
     return {
-      recipes: [], // Cambiar para inicializar como un array vacío
-      selectedRecipe: null,
+      recipes: [], // Lista de recetas obtenida desde el backend
+      selectedRecipe: null, // Receta seleccionada
     };
   },
-  created() {
-    this.fetchRecipes(); // Llama a la función para obtener las recetas cuando el componente se monta
-  },
   methods: {
+    // Método para obtener las recetas desde el backend
     async fetchRecipes() {
       try {
-        const response = await axios.get('http://localhost:4000/api/recipes'); // Cambia 'tu-backend-url' por tu URL real
-        this.recipes = response.data; // Asigna los datos obtenidos a recipes
+        const response = await api.get('/bebidas'); // Cambiar al endpoint real
+        this.recipes = response.data; // Asignar los datos obtenidos
       } catch (error) {
         console.error('Error al obtener las recetas:', error);
       }
     },
-
-    
-
     selectRecipe(recipe) {
       this.selectedRecipe = recipe;
       this.$nextTick(() => {
         const section = this.$refs.recipeDetails;
         window.scrollTo({
           top: section.offsetTop,
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
       });
     },
     closeRecipeDetails() {
       this.selectedRecipe = null;
-    }
-  }
+    },
+  },
+  mounted() {
+    this.fetchRecipes(); // Llamar al método para obtener recetas cuando el componente se monte
+  },
 };
+
+
 </script>
 
 <style scoped>
-/* Video de fondo */
+/* Conservamos los estilos que ya tienes */
 .background-video {
-  position: fixed; /* Hace que el video esté fijado en el fondo */
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%; /* Ocupa el ancho completo */
-  height: 100%; /* Ocupa la altura completa */
-  z-index: -1; /* Coloca el video detrás del contenido */
+  width: 100%;
+  height: 100%;
+  z-index: -1;
   overflow: hidden;
 }
 
 video {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Asegura que el video cubra el área */
+  object-fit: cover;
 }
 
-/* Fondo de la página */
 .entradas-page {
   position: relative;
   z-index: 1;
@@ -127,18 +127,16 @@ video {
   padding: 20px;
 }
 
-/* Título de la página */
 .title {
   text-align: center;
-  font-size: 48px; /* Tamaño más grande */
+  font-size: 48px;
   margin-bottom: 80px;
   color: white;
   margin-top: 60px;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Contorno oscuro para que no se pierda */
-  animation: glow 1.5s ease-in-out infinite; /* Efecto de brillo suave */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  animation: glow 1.5s ease-in-out infinite;
 }
 
-/* Contenedor de las recetas */
 .recipes-container {
   display: flex;
   flex-wrap: wrap;
@@ -147,7 +145,6 @@ video {
   padding-bottom: 35px;
 }
 
-/* Tarjeta de receta */
 .recipe-card {
   background-color: white;
   border-radius: 10px;
@@ -161,7 +158,6 @@ video {
   transform: scale(1.05);
 }
 
-/* Imagen de la receta */
 .recipe-image {
   width: 100%;
   height: 180px;
@@ -171,7 +167,6 @@ video {
   cursor: pointer;
 }
 
-/* Información de la receta */
 .recipe-info {
   padding: 15px;
 }
@@ -202,7 +197,6 @@ video {
   background-color: #f44336;
 }
 
-/* Estilos para los detalles de la receta */
 .recipe-details {
   margin-top: 50px;
   padding: 20px;

@@ -20,13 +20,13 @@
         @click="selectRecipe(recipe)"
       >
         <img
-          :src="recipe.image"
-          :alt="recipe.name"
+          :src="recipe.imagen"
+          :alt="recipe.nombre"
           class="recipe-image"
         />
         <div class="recipe-info">
-          <h2>{{ recipe.name }}</h2>
-          <p>{{ recipe.description }}</p>
+          <h2>{{ recipe.nombre }}</h2>
+          <p>{{ recipe.descripcion }}</p>
           <button @click="selectRecipe(recipe)">Ver Receta</button>
         </div>
       </div>
@@ -34,127 +34,108 @@
 
     <!-- Detalles de la receta seleccionada -->
     <div v-if="selectedRecipe" class="recipe-details" ref="recipeDetails">
-      <h2>{{ selectedRecipe.name }}</h2>
+      <h2>{{ selectedRecipe.nombre }}</h2>
       <div class="ingredients-list">
         <h3>Ingredientes:</h3>
         <ul>
-          <li v-for="(ingredient, index) in selectedRecipe.ingredients" :key="index">
-            {{ ingredient }}
+          <li v-for="(ingrediente, index) in selectedRecipe.ingredientes" :key="index">
+            {{ ingrediente }}
           </li>
         </ul>
       </div>
       <div class="recipe-description">
         <h3>Descripción:</h3>
-        <p>{{ selectedRecipe.description }}</p>
+        <p>{{ selectedRecipe.descripcion }}</p>
       </div>
       <iframe
-        :src="selectedRecipe.videoUrl"
+        :src="selectedRecipe.video_url"
         frameborder="0"
         allowfullscreen
         class="recipe-video"
       ></iframe>
+
       <button @click="closeRecipeDetails">Cerrar</button>
     </div>
   </div>
 </template>
 
 <script>
+import api from '@/services/api'; // Configuración de Axios
+
 export default {
   data() {
     return {
-      recipes: [
-        {
-          id: 1,
-          name: "Paloma",
-          description: "Una bebida refrescante para el verano.",
-          image: "https://coctelia.com/wp-content/uploads/2018/08/paloma.jpg",
-          videoUrl: "https://www.youtube.com/embed/dRHvBt26qTs",
-          ingredients: ["Jugo de limón", "Miel", "Jugo de toronja", "Hielo", "Soda", "Tajín"]
-        },
-        {
-          id: 2,
-          name: "El Cantarito",
-          description: "Una de las bebidas más populares de México.",
-          image: "https://th.bing.com/th/id/OIP.pDAoa-nsBUJ6KJAihu7W1AHaE8?rs=1&pid=ImgDetMain",
-          videoUrl: "https://www.youtube.com/embed/MQTTjNaI9DI",
-          ingredients: ["Jugo de limón", "Sal", "Chile en polvo", "Tequila", "Hielo", "Jugo de naranja", "Jugo de toronja"]
-        },
-        {
-          id: 3,
-          name: "Piña Colada",
-          description: "Uno de los cócteles más populares de la historia.",
-          image: "https://chefeel.com/chefgeneralfiles/2021/11/milky-cocktail-in-glass-with-pinapple-slice-and-cherry-scaled.jpg",
-          videoUrl: "https://www.youtube.com/embed/3d3uQOaBbhQ",
-          ingredients: ["Ron blanco", "Leche de coco", "Piña"]
-        },
-        {
-          id: 4,
-          name: "Rebujito",
-          description: "Una bebida refrescante, ideal para el aperitivo.",
-          image: "https://th.bing.com/th/id/OIP.H7nM8c9ifZNJLafOCupQNQHaE9?rs=1&pid=ImgDetMain",
-          videoUrl: "https://www.youtube.com/embed/JBzKSWIBndM",
-          ingredients: ["Vino Manzanilla", "Soda", "Hierbabuena", "Hielo"]
-        }
-      ],
-      selectedRecipe: null,
+      recipes: [], // Lista de recetas obtenida desde el backend
+      selectedRecipe: null, // Receta seleccionada
     };
   },
   methods: {
+    // Método para obtener las recetas desde el backend
+    async fetchRecipes() {
+      try {
+        const response = await api.get('/bebidas'); // Cambiar al endpoint real
+        this.recipes = response.data; // Asignar los datos obtenidos
+      } catch (error) {
+        console.error('Error al obtener las recetas:', error);
+      }
+    },
     selectRecipe(recipe) {
       this.selectedRecipe = recipe;
       this.$nextTick(() => {
         const section = this.$refs.recipeDetails;
         window.scrollTo({
           top: section.offsetTop,
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
       });
     },
     closeRecipeDetails() {
       this.selectedRecipe = null;
-    }
-  }
+    },
+  },
+  mounted() {
+    this.fetchRecipes(); // Llamar al método para obtener recetas cuando el componente se monte
+  },
 };
+
+
 </script>
 
 <style scoped>
-/* Video de fondo */
+/* Conservamos los estilos que ya tienes */
 .background-video {
-  position: fixed; /* Hace que el video esté fijado en el fondo */
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%; /* Ocupa el ancho completo */
-  height: 100%; /* Ocupa la altura completa */
-  z-index: -1; /* Coloca el video detrás del contenido */
+  width: 100%;
+  height: 100%;
+  z-index: -1;
   overflow: hidden;
 }
 
 video {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Asegura que el video cubra el área */
+  object-fit: cover;
 }
 
-/* Fondo de la página */
-.bebidas-page {
+.entradas-page {
   position: relative;
   z-index: 1;
   color: white;
   padding: 20px;
 }
 
-/* Título de la página */
 .title {
   text-align: center;
-  font-size: 48px; /* Tamaño más grande */
+  font-size: 48px;
   margin-bottom: 80px;
   color: white;
   margin-top: 60px;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Contorno oscuro para que no se pierda */
-  animation: glow 1.5s ease-in-out infinite; /* Efecto de brillo suave */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  animation: glow 1.5s ease-in-out infinite;
 }
 
-/* Contenedor de las recetas */
 .recipes-container {
   display: flex;
   flex-wrap: wrap;
@@ -163,21 +144,19 @@ video {
   padding-bottom: 35px;
 }
 
-/* Tarjeta de receta */
 .recipe-card {
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(9, 9, 9, 0.8);
   width: 250px;
   text-align: center;
   transition: transform 0.2s ease-in-out;
+  box-shadow: 0 2px 10px rgba(9, 9, 9, 0.8);
 }
 
 .recipe-card:hover {
   transform: scale(1.05);
 }
 
-/* Imagen de la receta */
 .recipe-image {
   width: 100%;
   height: 180px;
@@ -187,7 +166,6 @@ video {
   cursor: pointer;
 }
 
-/* Información de la receta */
 .recipe-info {
   padding: 15px;
 }
@@ -218,7 +196,6 @@ video {
   background-color: #f44336;
 }
 
-/* Estilos para los detalles de la receta */
 .recipe-details {
   margin-top: 50px;
   padding: 20px;
@@ -234,7 +211,7 @@ video {
   color: #a80000;
 }
 
-.recipe-video {
+.recipe-details .recipe-video {
   width: 100%;
   height: 250px;
   margin-top: 20px;
@@ -275,15 +252,5 @@ video {
 
 .recipe-details button:hover {
   background-color: #f44336;
-}
-
-/* Estilos para la información de contacto */
-.contact-info {
-  text-align: center;
-  margin-top: 40px;
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  color: black;
 }
 </style>
