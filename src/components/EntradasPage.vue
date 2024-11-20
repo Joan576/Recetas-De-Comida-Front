@@ -9,7 +9,6 @@
     </div>
 
     <!-- Título de la sección -->
-
     <h1 class="title">Entradas</h1>
 
     <!-- Contenedor de las recetas -->
@@ -35,6 +34,15 @@
 
     <!-- Detalles de la receta seleccionada -->
     <div v-if="selectedRecipe" class="recipe-details" ref="recipeDetails">
+      <!-- Botón Guardar/Quitar -->
+      <button
+        class="save-button"
+        :class="{ saved: isRecipeSaved(selectedRecipe.id) }"
+        @click="isRecipeSaved(selectedRecipe.id) ? unsaveRecipe(selectedRecipe) : saveRecipe(selectedRecipe)"
+      >
+        {{ isRecipeSaved(selectedRecipe.id) ? 'Guardado' : 'Guardar' }}
+      </button>
+
       <h2>{{ selectedRecipe.nombre }}</h2>
       <div class="ingredients-list">
         <h3>Ingredientes:</h3>
@@ -60,198 +68,116 @@
   </div>
 </template>
 
-<script>
-import api from '@/services/api'; // Configuración de Axios
+<script setup>
+import { ref, onMounted, nextTick } from 'vue';
+import api from '@/services/api';
+import '@/styles/recipes.css'; // Importa el CSS compartido
 
-export default {
-  data() {
-    return {
-      recipes: [], // Lista de recetas obtenida desde el backend
-      selectedRecipe: null, // Receta seleccionada
-    };
-  },
-  methods: {
-    // Método para obtener las recetas desde el backend
-    async fetchRecipes() {
-      try {
-        const response = await api.get('/bebidas'); // Cambiar al endpoint real
-        this.recipes = response.data; // Asignar los datos obtenidos
-      } catch (error) {
-        console.error('Error al obtener las recetas:', error);
-      }
-    },
-    selectRecipe(recipe) {
-      this.selectedRecipe = recipe;
-      this.$nextTick(() => {
-        const section = this.$refs.recipeDetails;
-        window.scrollTo({
-          top: section.offsetTop,
-          behavior: 'smooth',
-        });
-      });
-    },
-    closeRecipeDetails() {
-      this.selectedRecipe = null;
-    },
-  },
-  mounted() {
-    this.fetchRecipes(); // Llamar al método para obtener recetas cuando el componente se monte
-  },
+// Inicializamos variables reactivas
+const userId = ref(localStorage.getItem('userId')); // Obtiene el ID del usuario logueado
+const recipes = ref([]); // Lista de recetas obtenida desde el backend
+const selectedRecipe = ref(null); // Receta seleccionada
+const savedRecipes = ref([]); // Lista de IDs de recetas guardadas
+
+// Obtener las recetas del backend
+const fetchRecipes = async () => {
+  try {
+    const response = await api.get('/entradas'); // Cambia al endpoint real
+    recipes.value = response.data;
+  } catch (error) {
+    console.error('Error al obtener las recetas:', error);
+  }
 };
 
+// Obtener recetas guardadas del usuario logueado
+const fetchSavedRecipes = async () => {
+  if (!userId.value) return;
 
+  try {
+    const response = await api.get(`/saved-recipes/${userId.value}`);
+    savedRecipes.value = response.data.map((recipe) => recipe.recipe_id); // IDs de las recetas guardadas
+  } catch (error) {
+    console.error('Error al obtener las recetas guardadas:', error);
+  }
+};
+
+// Verificar si una receta está guardada
+const isRecipeSaved = (recipeId) => {
+  return savedRecipes.value.includes(recipeId);
+};
+
+// Guardar una receta
+const saveRecipe = async (recipe) => {
+  if (!userId.value) {
+    alert('Debes iniciar sesión para guardar recetas');
+    return;
+  }
+
+  if (isRecipeSaved(recipe.id)) {
+    alert('Esta receta ya está guardada');
+    return;
+  }
+
+  try {
+    const response = await api.post('/save', {
+      user_id: userId.value,
+      recipe_id: recipe.id,
+      recipe_type: 'entradas', // Tipo de receta
+    });
+
+    savedRecipes.value.push(recipe.id); // Agregar a la lista de guardadas
+    alert('Receta guardada exitosamente');
+    console.log('Respuesta del servidor:', response.data);
+  } catch (error) {
+    console.error('Error al guardar la receta:', error);
+    alert('Hubo un error al guardar la receta');
+  }
+};
+
+// Quitar guardado de una receta
+const unsaveRecipe = async (recipe) => {
+  if (!userId.value) {
+    alert('Debes iniciar sesión para quitar recetas guardadas');
+    return;
+  }
+
+  try {
+    const response = await api.delete(`/saved-recipes/${userId.value}/${recipe.id}`);
+
+    // Remover de la lista de recetas guardadas
+    savedRecipes.value = savedRecipes.value.filter((id) => id !== recipe.id);
+
+    alert('Receta eliminada de guardados');
+    console.log('Respuesta del servidor:', response.data);
+  } catch (error) {
+    console.error('Error al quitar la receta guardada:', error);
+    alert('Hubo un error al quitar la receta guardada');
+  }
+};
+
+// Seleccionar una receta
+const selectRecipe = (recipe) => {
+  selectedRecipe.value = recipe;
+  nextTick(() => {
+    const section = document.querySelector('.recipe-details');
+    if (section) {
+      window.scrollTo({
+        top: section.offsetTop,
+        behavior: 'smooth',
+      });
+    }
+  });
+};
+
+// Cerrar detalles de la receta
+const closeRecipeDetails = () => {
+  selectedRecipe.value = null;
+};
+
+// Ejecutar al montar el componente
+onMounted(async () => {
+  await fetchRecipes();
+  await fetchSavedRecipes();
+});
 </script>
 
-<style scoped>
-/* Conservamos los estilos que ya tienes */
-.background-video {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  overflow: hidden;
-}
-
-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.entradas-page {
-  position: relative;
-  z-index: 1;
-  color: white;
-  padding: 20px;
-}
-
-.title {
-  text-align: center;
-  font-size: 48px;
-  margin-bottom: 80px;
-  color: white;
-  margin-top: 60px;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-  animation: glow 1.5s ease-in-out infinite;
-}
-
-.recipes-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  gap: 50px;
-  padding-bottom: 35px;
-}
-
-.recipe-card {
-  background-color: white;
-  border-radius: 10px;
-  width: 250px;
-  text-align: center;
-  transition: transform 0.2s ease-in-out;
-  box-shadow: 0 2px 10px rgba(9, 9, 9, 0.8);
-}
-
-.recipe-card:hover {
-  transform: scale(1.05);
-}
-
-.recipe-image {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  cursor: pointer;
-}
-
-.recipe-info {
-  padding: 15px;
-}
-
-.recipe-info h2 {
-  font-size: 20px;
-  color: #a80000;
-  margin-bottom: 10px;
-}
-
-.recipe-info p {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 15px;
-}
-
-.recipe-info button {
-  padding: 8px 16px;
-  background-color: #a80000;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.recipe-info button:hover {
-  background-color: #f44336;
-}
-
-.recipe-details {
-  margin-top: 50px;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  max-width: 600px;
-  margin: 20px auto;
-}
-
-.recipe-details h2 {
-  color: #a80000;
-}
-
-.recipe-details .recipe-video {
-  width: 100%;
-  height: 250px;
-  margin-top: 20px;
-  border-radius: 10px;
-}
-
-.ingredients-list,
-.recipe-description {
-  margin-top: 20px;
-  color: black;
-}
-
-.ingredients-list h3,
-.recipe-description h3 {
-  color: #a80000;
-}
-
-.ingredients-list ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.ingredients-list li {
-  font-size: 16px;
-  color: #555;
-  margin-bottom: 5px;
-}
-
-.recipe-details button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #a80000;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.recipe-details button:hover {
-  background-color: #f44336;
-}
-</style>

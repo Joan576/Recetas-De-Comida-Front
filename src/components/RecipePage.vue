@@ -1,14 +1,14 @@
 <template>
   <div class="recipe-page">
     <!-- Sección Entradas y Acompañantes -->
-    <section class="recipe-section entradas" :class="{ 'reverse': isOdd(1) }">
-      <div class="recipe-content">
+    <section class="recipe-page-section recipe-page-entradas" :class="{ 'recipe-page-reverse': isOdd(1) }">
+      <div class="recipe-page-content">
         <img
           src="https://assets.unileversolutions.com/recipes-v2/244540.jpg"
           alt="Entradas y Acompañantes"
-          class="recipe-image"
+          class="recipe-page-image"
         />
-        <div class="recipe-info">
+        <div class="recipe-page-info">
           <h2>Entradas y Acompañantes</h2>
           <p>
             Las entradas y acompañantes más fáciles y deliciosas. ¡Aquí simplificamos la alta cocina para que cualquier persona pueda inventar, descubrir y cocinar!
@@ -19,14 +19,14 @@
     </section>
 
     <!-- Sección Platos Fuertes -->
-    <section class="recipe-section platos-fuertes" :class="{ 'reverse': isOdd(2) }">
-      <div class="recipe-content">
+    <section class="recipe-page-section recipe-page-platos-fuertes" :class="{ 'recipe-page-reverse': isOdd(2) }">
+      <div class="recipe-page-content">
         <img
           src="https://cdn.shopify.com/s/files/1/0428/9937/4229/files/tiempos_de_coccion_de_carne_a_la_parrilla_1024x1024.jpg?v=1682630374"
           alt="Platos Fuertes"
-          class="recipe-image"
+          class="recipe-page-image"
         />
-        <div class="recipe-info">
+        <div class="recipe-page-info">
           <h2>Platos Fuertes</h2>
           <p>
             Descubre los platos fuertes más suculentos que te harán sentir como un chef profesional. ¡Cocina y disfruta de cada bocado!
@@ -37,34 +37,32 @@
     </section>
 
     <!-- Sección Postres -->
-    <section class="recipe-section postres" :class="{ 'reverse': isOdd(3) }">
-      <div class="recipe-content">
+    <section class="recipe-page-section recipe-page-postres" :class="{ 'recipe-page-reverse': isOdd(3) }">
+      <div class="recipe-page-content">
         <img
           src="https://chocolatestorras.com/wp-content/uploads/2023/05/postres-verano-con-chocolate.jpg"
           alt="Postres"
-          class="recipe-image"
+          class="recipe-page-image"
         />
-        <div class="recipe-info">
+        <div class="recipe-page-info">
           <h2>Postres</h2>
           <p>
             ¡Endulza tu vida con los postres más ricos y fáciles de preparar! Desde tartas hasta helados, tenemos todo lo que necesitas para sorprender.
           </p>
-          <!-- Este botón redirige a la sección de postres -->
           <button @click="goToRecipes('postres')">Ver ahora</button>
-
         </div>
       </div>
     </section>
 
     <!-- Sección Bebidas y Cócteles -->
-    <section class="recipe-section bebidas" :class="{ 'reverse': isOdd(4) }">
-      <div class="recipe-content">
+    <section class="recipe-page-section recipe-page-bebidas" :class="{ 'recipe-page-reverse': isOdd(4) }">
+      <div class="recipe-page-content">
         <img
           src="https://termosyeti.com/wp-content/uploads/2023/10/bebidas-alcoholicas.jpg"
           alt="Bebidas y Cócteles"
-          class="recipe-image"
+          class="recipe-page-image"
         />
-        <div class="recipe-info">
+        <div class="recipe-page-info">
           <h2>Bebidas y Cócteles</h2>
           <p>
             Refresca tu día o sorprende a tus invitados con nuestras recetas de bebidas y cócteles. ¡Sabores únicos y combinaciones deliciosas!
@@ -85,7 +83,6 @@ export default {
       if (isAuthenticated) {
         // Si el usuario está autenticado, lo redirige a las recetas
         this.$router.push(`/recipes/${category}`);
-
       } else {
         // Si no está autenticado, lo redirige al login
         this.$router.push('/login');
@@ -93,8 +90,8 @@ export default {
     },
     isOdd(index) {
       return index % 2 !== 0;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -110,7 +107,7 @@ export default {
 }
 
 /* Estilo para cada sección de recetas */
-.recipe-section {
+.recipe-page-section {
   margin: 40px 0;
   padding: 40px;
   border-radius: 15px;
@@ -121,7 +118,7 @@ export default {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-.recipe-section::before {
+.recipe-page-section::before {
   content: '';
   position: absolute;
   top: 0;
@@ -133,36 +130,24 @@ export default {
   border-radius: 15px;
 }
 
-/* Fondo de la sección Entradas y Acompañantes */
-.entradas {
+/* Fondos específicos para cada sección */
+.recipe-page-entradas {
   background-image: url('https://www.cocinavital.mx/wp-content/uploads/2019/09/recetas_de_botanas_sencillas.jpg');
-  background-size: cover;
-  background-blend-mode: darken;
 }
 
-/* Fondo para la sección Platos Fuertes */
-.platos-fuertes {
+.recipe-page-platos-fuertes {
   background-image: url('https://www.comedera.com/wp-content/uploads/2021/03/plato-de-carne.jpg');
-  background-size: cover;
-  background-blend-mode: darken;
 }
 
-/* Fondo para la sección Postres */
-.postres {
+.recipe-page-postres {
   background-image: url('https://okdiario.com/img/2022/09/22/postres-de-helado-655x368.jpg');
-  background-size: cover;
-  background-blend-mode: darken;
 }
 
-/* Fondo para la sección Bebidas y Cócteles */
-.bebidas {
+.recipe-page-bebidas {
   background-image: url('https://hips.hearstapps.com/hmg-prod/images/bebidas-cocktail-portada-1620751394.jpg');
-  background-size: cover;
-  background-blend-mode: darken;
 }
 
-/* Estilos para las secciones normales */
-.recipe-content {
+.recipe-page-content {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -171,33 +156,33 @@ export default {
 }
 
 /* Secciones alternadas */
-.recipe-section.reverse .recipe-content {
+.recipe-page-section.recipe-page-reverse .recipe-page-content {
   flex-direction: row-reverse;
 }
 
-.recipe-image {
+.recipe-page-image {
   width: 45%;
   max-width: 500px;
   border-radius: 10%;
   object-fit: cover;
 }
 
-.recipe-info {
+.recipe-page-info {
   width: 45%;
   text-align: left;
 }
 
-.recipe-info h2 {
+.recipe-page-info h2 {
   font-size: 32px;
   margin-bottom: 10px;
 }
 
-.recipe-info p {
+.recipe-page-info p {
   font-size: 18px;
   margin-bottom: 20px;
 }
 
-.recipe-info button {
+.recipe-page-info button {
   padding: 10px 20px;
   background-color: #a80000;
   color: white;
@@ -206,7 +191,7 @@ export default {
   cursor: pointer;
 }
 
-.recipe-info button:hover {
+.recipe-page-info button:hover {
   background-color: #f44336;
 }
 </style>
