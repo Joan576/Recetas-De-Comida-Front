@@ -14,7 +14,7 @@
     object-fit: cover;
   }
   
-  .entradas-page {
+  .recetas-page {
     position: relative;
     z-index: 1;
     color: white;
@@ -24,9 +24,8 @@
   .title {
     text-align: center;
     font-size: 48px;
-    margin-bottom: 80px;
+    margin-bottom: 40px;
     color: white;
-    margin-top: 60px;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
   }
   
@@ -111,7 +110,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
   }
   
   .recipe-info button:hover {

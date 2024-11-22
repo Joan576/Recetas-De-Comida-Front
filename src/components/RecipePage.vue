@@ -115,7 +115,7 @@ export default {
   position: relative;
   z-index: 1;
   border: 3px solid #a80000;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .recipe-page-section::before {
@@ -165,7 +165,14 @@ export default {
   max-width: 500px;
   border-radius: 10%;
   object-fit: cover;
+  border: 5px solid #a80000; /* Agrega un borde rojo */
+  transition: border-color 0.3s ease; /* Animación para cambiar el color del borde */
 }
+
+.recipe-page-image:hover {
+  border-color: #ff1100d6; /* Cambia el color del borde al pasar el cursor */
+}
+
 
 .recipe-page-info {
   width: 45%;

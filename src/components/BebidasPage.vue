@@ -1,5 +1,5 @@
 <template>
-  <div class="bebidas-page" style="margin-bottom: 21px;">
+  <div class="recetas-page" style="margin-bottom: 21px;">
     <!-- Video de fondo -->
     <div class="background-video">
       <video autoplay loop muted>
@@ -9,10 +9,7 @@
     </div>
 
      <!-- Título de la sección -->
-     <h1 class="title">Postres</h1>
-
-<!-- Título de la sección -->
-<h1 class="title">Entradas</h1>
+     <h1 class="title" style="margin-top: 30px;">Postres</h1>
 
 <!-- Contenedor de las recetas -->
 <div class="recipes-container">
@@ -20,7 +17,7 @@
     class="recipe-card"
     v-for="recipe in recipes"
     :key="recipe.id"
-    @click="selectRecipe(recipe)"
+    @click="selectRecipe(recipe)"  style="margin: 5px;"
   >
     <img
       :src="recipe.imagen"
@@ -30,7 +27,7 @@
     <div class="recipe-info">
       <h2>{{ recipe.nombre }}</h2>
       <p>{{ recipe.descripcion }}</p>
-      <button @click="selectRecipe(recipe)">Ver Receta</button>
+      <button @click="selectRecipe(recipe)" style="margin-left: 60px;">Ver Receta</button>
     </div>
   </div>
 </div>
@@ -40,10 +37,10 @@
   <!-- Botón Guardar/Quitar -->
   <button
     class="save-button"
-    :class="{ saved: isRecipeSaved(selectedRecipe.id) }"
-    @click="isRecipeSaved(selectedRecipe.id) ? unsaveRecipe(selectedRecipe) : saveRecipe(selectedRecipe)"
+    :class="{ saved: isRecipeSaved(selectedRecipe.id, selectedRecipe.recipe_type) }"
+    @click="isRecipeSaved(selectedRecipe.id, selectedRecipe.recipe_type) ? unsaveRecipe(selectedRecipe) : saveRecipe(selectedRecipe)"
   >
-    {{ isRecipeSaved(selectedRecipe.id) ? 'Guardado' : 'Guardar' }}
+    {{ isRecipeSaved(selectedRecipe.id, selectedRecipe.recipe_type) ? 'Guardado' : 'Guardar' }}
   </button>
 
   <h2>{{ selectedRecipe.nombre }}</h2>
@@ -76,37 +73,42 @@ import { ref, onMounted, nextTick } from 'vue';
 import api from '@/services/api';
 import '@/styles/recipes.css'; // Importa el CSS compartido
 
-// Inicializamos variables reactivas
-const userId = ref(localStorage.getItem('userId')); // Obtiene el ID del usuario logueado
-const recipes = ref([]); // Lista de recetas obtenida desde el backend
+// Variables reactivas
+const userId = ref(localStorage.getItem('userId')); // ID del usuario logueado
+const recipes = ref([]); // Lista de recetas del backend
 const selectedRecipe = ref(null); // Receta seleccionada
-const savedRecipes = ref([]); // Lista de IDs de recetas guardadas
+const savedRecipes = ref([]); // Recetas guardadas
 
 // Obtener las recetas del backend
 const fetchRecipes = async () => {
 try {
-const response = await api.get('/bebidas'); // Cambia al endpoint real
-recipes.value = response.data;
+const response = await api.get('/bebidas'); // Endpoint real
+recipes.value = response.data.map((recipe) => ({
+  ...recipe,
+  recipe_type: 'bebidas', // Asegura que el tipo de receta esté presente
+}));
 } catch (error) {
 console.error('Error al obtener las recetas:', error);
 }
 };
 
-// Obtener recetas guardadas del usuario logueado
+// Obtener las recetas guardadas
 const fetchSavedRecipes = async () => {
 if (!userId.value) return;
 
 try {
 const response = await api.get(`/saved-recipes/${userId.value}`);
-savedRecipes.value = response.data.map((recipe) => recipe.recipe_id); // IDs de las recetas guardadas
+savedRecipes.value = response.data; // Incluye todos los datos de la receta guardada
 } catch (error) {
 console.error('Error al obtener las recetas guardadas:', error);
 }
 };
 
 // Verificar si una receta está guardada
-const isRecipeSaved = (recipeId) => {
-return savedRecipes.value.includes(recipeId);
+const isRecipeSaved = (recipeId, recipeType) => {
+return savedRecipes.value.some(
+(recipe) => recipe.recipe_id === recipeId && recipe.recipe_type === recipeType
+);
 };
 
 // Guardar una receta
@@ -116,19 +118,19 @@ alert('Debes iniciar sesión para guardar recetas');
 return;
 }
 
-if (isRecipeSaved(recipe.id)) {
-alert('Esta receta ya está guardada');
-return;
-}
-
 try {
 const response = await api.post('/save', {
   user_id: userId.value,
   recipe_id: recipe.id,
-  recipe_type: 'bebidas', // Tipo de receta
+  recipe_type: recipe.recipe_type,
 });
 
-savedRecipes.value.push(recipe.id); // Agregar a la lista de guardadas
+// Agregar a la lista de guardadas
+savedRecipes.value.push({
+  recipe_id: recipe.id,
+  recipe_type: recipe.recipe_type,
+});
+
 alert('Receta guardada exitosamente');
 console.log('Respuesta del servidor:', response.data);
 } catch (error) {
@@ -137,18 +139,29 @@ alert('Hubo un error al guardar la receta');
 }
 };
 
-// Quitar guardado de una receta
+// Quitar una receta guardada
 const unsaveRecipe = async (recipe) => {
 if (!userId.value) {
 alert('Debes iniciar sesión para quitar recetas guardadas');
 return;
 }
 
-try {
-const response = await api.delete(`/saved-recipes/${userId.value}/${recipe.id}`);
+console.log('Intentando quitar receta:', recipe);
 
-// Remover de la lista de recetas guardadas
-savedRecipes.value = savedRecipes.value.filter((id) => id !== recipe.id);
+if (!recipe.id || !recipe.recipe_type) {
+console.error('El objeto receta no tiene ID o tipo válido:', recipe);
+alert('No se pudo eliminar la receta. Datos incompletos.');
+return;
+}
+
+try {
+const response = await api.delete(`/saved-recipes/${userId.value}/${recipe.id}/${recipe.recipe_type}`);
+
+// Remover de la lista de guardadas
+savedRecipes.value = savedRecipes.value.filter(
+  (savedRecipe) =>
+    savedRecipe.recipe_id !== recipe.id || savedRecipe.recipe_type !== recipe.recipe_type
+);
 
 alert('Receta eliminada de guardados');
 console.log('Respuesta del servidor:', response.data);
@@ -171,16 +184,20 @@ if (section) {
 }
 });
 };
-
-// Cerrar detalles de la receta
+// Método para cerrar los detalles de una receta con animación
 const closeRecipeDetails = () => {
-selectedRecipe.value = null;
+  const section = document.querySelector('.recetas-page');
+  if (section) {
+    window.scrollTo({
+      top: section.offsetTop, // Ajusta este valor para desplazar más hacia arriba
+      behavior: 'smooth',
+    });
+  }
+  selectedRecipe.value = null;
 };
-
-// Ejecutar al montar el componente
+// Cargar las recetas y recetas guardadas al montar el componente
 onMounted(async () => {
 await fetchRecipes();
 await fetchSavedRecipes();
 });
 </script>
-
