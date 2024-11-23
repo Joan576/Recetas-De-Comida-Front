@@ -28,13 +28,13 @@ import TipsCard from '@/components/TipsCard.vue';
 
 <style scoped>
 .feed-container {
-  background: linear-gradient(135deg, #f8f9fa, #e9ecef); /* Fondo degradado claro */
+  background: #0e0e0e;
   padding: 20px; /* Espaciado general */
   display: flex;
   flex-direction: column;
   border-radius: 5px; /* Bordes redondeados para el contenedor */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);; /* Sombra suave */
 }
 
-
 </style>
+s

@@ -80,7 +80,7 @@
   
   .subtitle {
     font-size: 1rem;
-    color: #555;
+    color: #edebeb;
     margin-bottom: 20px;
   }
   
