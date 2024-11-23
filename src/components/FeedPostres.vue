@@ -1,52 +1,188 @@
 <template>
-    <section class="feed-section postres">
-      <div class="feed-content">
-        <img
-          src="https://chocolatestorras.com/wp-content/uploads/2023/05/postres-verano-con-chocolate.jpg"
-          alt="Postres"
-          class="feed-image"
-        />
-        <div class="feed-info">
-          <h2>Postres</h2>
-          <p>
-            Endulza tu día con los postres más deliciosos. Desde pasteles hasta helados, encuentra la receta perfecta para tu antojo.
-          </p>
-          <button @click="goToRecipes('postres')">Ver más</button>
+  <div class="feed-entradas">
+    <div class="column left">
+      <div class="carousel">
+        <div class="carousel-images" :style="{ transform: `translateX(-${currentImageIndex * 100}%)` }">
+          <img
+            v-for="(image, index) in images"
+            :key="index"
+            :src="image"
+            @click="goToRecipes('postres')"
+            alt="Receta de entrada"
+          />
         </div>
+        <button class="carousel-control prev" @click="prevImage">❮</button>
+        <button class="carousel-control next" @click="nextImage">❯</button>
       </div>
-      <!-- Muestra una receta específica de Postres -->
-      <div class="recipe-preview">
-        <img
-          src="https://okdiario.com/img/2022/09/22/postres-de-helado-655x368.jpg"
-          alt="Receta de Postre"
-          class="recipe-image"
-        />
-        <div class="recipe-details">
-          <h3>Helado Casero</h3>
-          <p>Disfruta de un delicioso helado casero para acompañar cualquier momento del día.</p>
-          <button @click="goToRecipes('postres')">Ver más</button>
-        </div>
+    </div>
+    <div class="column right">
+      <div class="intro-text">
+        <h2>Endulza tu paladar con estos diversos e increibles postres</h2>
+        <button class="custom-button" @click="goToRecipes('entradas')">
+          <span>Ver más</span>
+        </button>
       </div>
-    </section>
-  </template>
-  
-  <script>
-  export default {
-    methods: {
-      goToRecipes(category) {
-        const isAuthenticated = localStorage.getItem('user');
-  
-        if (isAuthenticated) {
-          this.$router.push(`/recipes/${category}`);
-        } else {
-          this.$router.push('/login');
-        }
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      images: [
+        "https://content-cocina.lecturas.com/medio/2022/01/19/paso_a_paso_para_realizar_tarta_de_flan_con_galletas_y_chocolate_sin_azucar_resultado_final_1ce8842f_600x600.jpg",
+        "https://i.ytimg.com/vi/2_FUW8y2J1M/maxresdefault.jpg",
+        "https://www.recetasnestlecam.com/sites/default/files/styles/crop_article_banner_desktop_nes/public/2023-02/postres-con-mango.jpg.jpg?itok=c6AgNlbK",
+        "https://www.hola.com/horizon/landscape/bc1da7dbd517-helado-galletas-oreo-t.jpg",
+        "https://i.pinimg.com/736x/69/71/60/6971603fb795f7c695f3542116e4a011.jpg"
+      ],
+      currentImageIndex: 0
+    };
+  },
+  methods: {
+    nextImage() {
+      this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+    },
+    prevImage() {
+      this.currentImageIndex = (this.currentImageIndex - 1 + this.images.length) % this.images.length;
+    },
+    goToRecipes(category) {
+      const isAuthenticated = localStorage.getItem("user");
+      if (isAuthenticated) {
+        this.$router.push(`/recipes/${category}`);
+      } else {
+        this.$router.push("/login");
       }
+    },
+    autoSlide() {
+      setInterval(() => {
+        this.nextImage();
+      }, 4000); // Cambia cada 4 segundos
     }
-  };
-  </script>
-  
-  <style scoped>
-  /* Los estilos son los mismos que en el componente anterior, ajustados para cada sección */
-  </style>
-  
+  },
+  mounted() {
+    this.autoSlide();
+  }
+};
+
+//
+</script>
+
+<style scoped>
+.feed-entradas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 75px; /* Ajuste para evitar que se oculte detrás de la barra de navegación */
+}
+
+.column {
+  flex: 1;
+  min-width: 300px;
+  min-height: 400px; /* Ajuste para hacer las columnas más altas */
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #b80000;
+  color: white;
+  padding: 150px;
+  border-radius: 10px;
+}
+
+.intro-text {
+  text-align: center;
+}
+
+.intro-text h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Estilo para el botón personalizado */
+.custom-button {
+  display: inline-block;
+  background-color: white;
+  color: #b30000;
+  font-weight: bold;
+  border: 2px solid #b30000;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.custom-button:hover {
+  background-color: #b30000;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  min-height: 400px; /* Asegura que el carrusel tenga la misma altura que las columnas */
+  max-height: 400px; 
+}
+
+.carousel-images {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-images img {
+  min-width: 100%;
+  max-width: 100%; /* Asegura que las imágenes no sean más anchas que el contenedor */
+  height: 100%; /* Asegura que las imágenes ocupen toda la altura del carrusel */
+  object-fit: cover; /* Asegura que las imágenes se ajusten sin distorsión */
+}
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.carousel-control.prev {
+  left: 10px;
+}
+
+.carousel-control.next {
+  right: 10px;
+}
+
+.carousel-control:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .feed-entradas {
+    flex-direction: column;
+    align-items: center;
+  }
+  .column {
+    min-height: auto;
+  }
+}
+</style>

@@ -1,9 +1,11 @@
 <template>
-  <div class="feed-bebidas">
+  <div class="feed-entradas">
     <div class="column left">
       <div class="intro-text">
-        <h2>¿Te gustaría preparar alguna de estas deliciosas bebidas, cierto?</h2>
-        <button class="view-now" @click="goToRecipes('bebidas')">Ver más</button>
+        <h2>Está haciendo calor ¿cierto? refresca tu paladar con estas deliciosas bebidas y cocteles</h2>
+        <button class="custom-button" @click="goToRecipes('bebidas')">
+          <span>Ver más</span>
+        </button>
       </div>
     </div>
     <div class="column right">
@@ -13,8 +15,8 @@
             v-for="(image, index) in images"
             :key="index"
             :src="image"
-            @click="goToRecipes('bebidas')"
-            alt="Receta de bebida"
+            @click="goToRecipes('entradas')"
+            alt="Receta de entrada"
           />
         </div>
         <button class="carousel-control prev" @click="prevImage">❮</button>
@@ -29,8 +31,8 @@ export default {
   data() {
     return {
       images: [
-        "https://coctelia.com/wp-content/uploads/2018/08/paloma.jpg",
-        "https://th.bing.com/th/id/OIP.pDAoa-nsBUJ6KJAihu7W1AHaE8?rs=1&pid=ImgDetMain",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa23lUI9ThpJdawF7SmKZoffTurd-9PdvNfQ&s",
+        "https://www.frigicoll.es/blog/wp-content/uploads/2019/05/Cocktail-slider.jpg",
         "https://chefeel.com/chefgeneralfiles/2021/11/milky-cocktail-in-glass-with-pinapple-slice-and-cherry-scaled.jpg",
         "https://th.bing.com/th/id/OIP.H7nM8c9ifZNJLafOCupQNQHaE9?rs=1&pid=ImgDetMain"
       ],
@@ -62,22 +64,21 @@ export default {
     this.autoSlide();
   }
 };
-
-//
 </script>
 
 <style scoped>
-.feed-bebidas {
+.feed-entradas {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
- 
+  margin-top: 75px; /* Ajuste para evitar que se oculte detrás de la barra de navegación */
 }
 
 .column {
   flex: 1;
   min-width: 300px;
   min-height: 400px; /* Ajuste para hacer las columnas más altas */
+  max-height: 400px;
 }
 
 .left {
@@ -86,14 +87,14 @@ export default {
   justify-content: center;
   background-color: #b80000;
   color: white;
-  padding: 20px;
-  border-radius: 10px
+  padding: 150px;
+  border-radius: 10px;
 }
 
 .right {
   display: flex;
   align-items: center;
-  justify-content: center;;
+  justify-content: center;
 }
 
 .intro-text {
@@ -106,14 +107,25 @@ export default {
   margin-bottom: 10px;
 }
 
-.view-now {
+/* Estilo para el botón personalizado */
+.custom-button {
+  display: inline-block;
   background-color: white;
   color: #b30000;
-  border: none;
+  font-weight: bold;
+  border: 2px solid #b30000;
   padding: 10px 20px;
   font-size: 1rem;
+  border-radius: 50px;
   cursor: pointer;
-  border-radius: 5px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.custom-button:hover {
+  background-color: #b30000;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .carousel {
@@ -121,6 +133,8 @@ export default {
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  min-height: 400px; /* Asegura que el carrusel tenga la misma altura que las columnas */
+  max-height: 400px;
 }
 
 .carousel-images {
@@ -130,9 +144,9 @@ export default {
 
 .carousel-images img {
   min-width: 100%;
-  cursor: pointer;
-  height: 200px;
-  object-fit: cover;
+  max-width: 100%; /* Asegura que las imágenes no sean más anchas que el contenedor */
+  height: 100%; /* Asegura que las imágenes ocupen toda la altura del carrusel */
+  object-fit: cover; /* Asegura que las imágenes se ajusten sin distorsión */
 }
 
 .carousel-control {
@@ -159,24 +173,14 @@ export default {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-.custom-button {
-  display: inline-block;
-  background-color: white;
-  color: #b30000;
-  font-weight: bold;
-  border: 2px solid #b30000;
-  padding: 10px 20px;
-  font-size: 1rem;
-  border-radius: 50px;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
+/* Responsividad */
+@media (max-width: 768px) {
+  .feed-entradas {
+    flex-direction: column;
+    align-items: center;
+  }
+  .column {
+    min-height: auto;
+  }
 }
-
-.custom-button:hover {
-  background-color: #b30000;
-  color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
 </style>

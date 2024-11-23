@@ -24,6 +24,8 @@
       </div>
     </div>
   </div>
+
+
 </template>
 
 <script>
@@ -31,6 +33,7 @@ export default {
   data() {
     return {
       images: [
+        "https://elcordillerano-s2.cdn.net.ar/st2i1700/2022/11/elcordillerano/images/24/22/242282_f82d776db77dbfee3d537a400a135c3f21f13a5b34b547642228fd4e9fc56a15/md.jpg",
         "https://uvn-brightspot.s3.amazonaws.com/assets/vixes/3/3_entradas_deliciosas_pero_saludables_que_puedes_darle_a_tus_invitados_si_tienes_una_reunion_en_casa2.jpg",
         "https://i.blogs.es/2d7201/1/1366_2000.jpg",
         "https://www.revistacredencial.com/sites/default/files/styles/760xauto-nota/public/imagenes/festival_gastro.jpg?itok=Tfo2eDFW",
@@ -80,6 +83,8 @@ export default {
   flex: 1;
   min-width: 300px;
   min-height: 400px; /* Ajuste para hacer las columnas más altas */
+  
+  max-height: 400;
 }
 
 .left {
@@ -94,7 +99,7 @@ export default {
   justify-content: center;
   background-color: #b80000;
   color: white;
-  padding: 20px;
+  padding: 150px;
   border-radius: 10px;
 }
 
@@ -144,9 +149,9 @@ export default {
 
 .carousel-images img {
   min-width: 100%;
-  cursor: pointer;
+  max-width: 100%; /* Asegura que las imágenes no sean más anchas que el contenedor */
   height: 100%; /* Asegura que las imágenes ocupen toda la altura del carrusel */
-  object-fit: cover;
+  object-fit: cover; /* Asegura que las imágenes se ajusten sin distorsión */
 }
 
 .carousel-control {
