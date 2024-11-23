@@ -2,7 +2,6 @@
 <template>
     <div>
       <RecipePage/>
-      <FeedView />
       
     </div>
     
@@ -11,7 +10,6 @@
   
   <script setup>
   import RecipePage from '@/components/RecipePage.vue';
-import FeedView from './FeedView.vue';
   </script>
   
   <style scoped>
