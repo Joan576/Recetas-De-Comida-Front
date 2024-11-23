@@ -1,6 +1,5 @@
 <template>
   <div class="recetas-page" style="margin-bottom: 21px;">
-    <hr>
     <!-- Video de fondo -->
     <div class="background-video">
       <video autoplay loop muted>

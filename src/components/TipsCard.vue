@@ -74,7 +74,8 @@
   .header h1 {
     font-size: 2.5rem;
     font-weight: bold;
-    color: white;
+    color: #c71010;
+    text-shadow: 0px 1px 5px rgb(0, 0, 0);
     margin-bottom: 10px;
   }
   

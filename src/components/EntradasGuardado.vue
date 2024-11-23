@@ -1,5 +1,6 @@
 <template>
   <div class="guardado-page">
+    <hr>
     <h1>Entradas</h1>
 
     <!-- Contenedor de recetas guardadas -->

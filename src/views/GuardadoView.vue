@@ -6,7 +6,7 @@
       <h1>Recetas Guardadas</h1>
       <p>Aquí puedes ver todas las recetas que has guardado organizadas por categorías. ¡Disfruta cocinando tus platillos favoritos!</p>
     </header>
-    <hr>
+    
 
     <!-- Secciones de recetas guardadas -->
     <div class="recipes-sections">
@@ -47,7 +47,7 @@ import BebidasGuardado from '@/components/BebidasGuardado.vue';
   font-size: 2.5rem;
   color: #c71010;
   margin-bottom: 10px;
-  text-shadow: 0px 1px 2px rgb(188, 188, 188);
+  text-shadow: 0px 1px 5px rgb(0, 0, 0);
 }
 
 .page-header p {

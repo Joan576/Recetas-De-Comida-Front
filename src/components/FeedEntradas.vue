@@ -106,6 +106,7 @@ export default {
 
 .intro-text {
   text-align: center;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
 }
 
 .intro-text h2 {
@@ -140,20 +141,25 @@ export default {
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  min-height: 400px; /* Asegura que el carrusel tenga la misma altura que las columnas */
+  height: 400px; /* Altura fija del carrusel */
+  display: flex; /* Asegúrate de que el contenedor use flexbox */
+  align-items: center; /* Alinea las imágenes verticalmente */
 }
 
 .carousel-images {
   display: flex;
-  transition: transform 0.5s ease-in-out;
+  height: 100%; /* Asegura que el contenedor de imágenes ocupe toda la altura */
 }
 
 .carousel-images img {
-  min-width: 100%;
-  max-width: 100%; /* Asegura que las imágenes no sean más anchas que el contenedor */
-  height: 100%; /* Asegura que las imágenes ocupen toda la altura del carrusel */
-  object-fit: cover; /* Asegura que las imágenes se ajusten sin distorsión */
+  flex-shrink: 0;
+  width: 100%; /* Ocupa todo el ancho disponible */
+  height: 100%; /* Ocupa toda la altura disponible */
+  object-fit: cover; /* Ajusta la imagen sin deformarla */
+  display: block; /* Evita problemas de margen con imágenes inline */
 }
+
+
 
 .carousel-control {
   position: absolute;
