@@ -2,11 +2,12 @@
 
 <div class="feed-container">
     <ChefRecommendations />
+    <TipsCard />
     <FeedEntradas />
     <FeedPlatosFuertes />
     <FeedPostres />
     <FeedBebidas />
-    <TipsCard />
+    
   </div>
 
 

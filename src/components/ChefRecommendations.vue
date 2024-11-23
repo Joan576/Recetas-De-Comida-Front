@@ -65,7 +65,7 @@
   .recommendations-section h2 {
     font-size: 2rem;
     margin-bottom: 20px;
-    color: #b80000;
+    color: #ffffff;
   }
   
   .cards-container {

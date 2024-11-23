@@ -1,5 +1,6 @@
 <template>
   <div class="feed-entradas">
+    <hr>
     <div class="column left">
       <div class="intro-text">
         <h2>Está haciendo calor ¿cierto? refresca tu paladar con estas deliciosas bebidas y cocteles</h2>

@@ -1,5 +1,6 @@
 <template>
   <div class="feed-entradas">
+    <hr>
     <div class="column left">
       <div class="carousel">
         <div class="carousel-images" :style="{ transform: `translateX(-${currentImageIndex * 100}%)` }">

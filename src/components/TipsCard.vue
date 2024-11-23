@@ -74,13 +74,13 @@
   .header h1 {
     font-size: 2.5rem;
     font-weight: bold;
-    color: #b80000;
+    color: white;
     margin-bottom: 10px;
   }
   
   .subtitle {
     font-size: 1rem;
-    color: #edebeb;
+    color: #f8f8f8;
     margin-bottom: 20px;
   }
   
@@ -104,7 +104,7 @@
     font-weight: bold;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
+    cursor: crosshair;
     transition: transform 0.3s ease, background-color 0.3s ease;
   }
   

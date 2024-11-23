@@ -147,7 +147,7 @@ export default {
 <style scoped>
 /* Fondo de la página */
 .feed-page {
-  background-color: #424242;
+  background-color: #f4f4f4;
   color: #333;
   padding: 20px;
 }

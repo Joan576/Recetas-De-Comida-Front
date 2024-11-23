@@ -1,5 +1,6 @@
 <template>
   <div class="feed-entradas">
+    <hr>
     <div class="column left">
       <div class="intro-text">
         <h2>Estamos seguros que estos platos fuertes te harán agua la boca ¿qué esperas para prepararlos?</h2>
